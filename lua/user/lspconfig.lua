@@ -1,11 +1,20 @@
 ---- lsp_installer
 local status_ok, lsp_installer = pcall(require, "nvim-lsp-installer")
-
 if status_ok then
     -- Register a handler that will be called for each installed server when it's ready (i.e. when installation is finished
     -- or if the server is already installed).
     lsp_installer.on_server_ready(function(server)
-        local opts = {}
+        local opts = {
+          ensure_installed = { 'ltex', 'cmake'   },
+          automatic_installation = true, -- automatically detect which servers to install (based on which servers are set up via lspconfig)
+          ui = {
+            icons = {
+              server_installed = "✓",
+              server_pending = "➜",
+              server_uninstalled = "✗"
+            }
+          }
+        }
 
         -- (optional) Customize the options passed to the server
         -- if server.name == "tsserver" then
@@ -58,8 +67,8 @@ end
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap=true, silent=true }
 vim.api.nvim_set_keymap('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
-vim.api.nvim_set_keymap('n', 'g[', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-vim.api.nvim_set_keymap('n', 'g]', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+vim.api.nvim_set_keymap('n', 'gp', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+vim.api.nvim_set_keymap('n', 'gn', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
 vim.api.nvim_set_keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
 
 -- Use an on_attach function to only map the following keys
@@ -133,7 +142,7 @@ clangdExt.setup {
         -- These apply to the default ClangdSetInlayHints command
         inlay_hints = {
             -- Only show inlay hints for the current line
-            only_current_line = false,
+            only_current_line = true,
             -- Event which triggers a refersh of the inlay hints.
             -- You can make this "CursorMoved" or "CursorMoved,CursorMovedI" but
             -- not that this may cause  higher CPU usage.

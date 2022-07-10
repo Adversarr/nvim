@@ -14,6 +14,7 @@ require "user.symbolsoutline"
 require "user.lualine"
 require "user.bufferline"
 require "user.fzf"
+require "user.whichkey"
 
 require "myself.options"
 require "myself.cmake"

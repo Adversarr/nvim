@@ -9,7 +9,7 @@ end
 ntree.setup {
     auto_reload_on_write = true,
     disable_netrw = true,
-    hide_root_folder = false,
+    -- hide_root_folder = false,
     hijack_cursor = true,
     hijack_netrw = false,
     hijack_unnamed_buffer_when_opening = false,

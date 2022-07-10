@@ -63,7 +63,10 @@ return require('packer').startup{
       use 'hrsh7th/cmp-nvim-lsp-signature-help'
       use 'hrsh7th/cmp-nvim-lsp-document-symbol'
 
-      -- use 'nvim-telescope/telescope.nvim'
+      use {
+        'nvim-telescope/telescope.nvim',
+        requires = { {'nvim-lua/plenary.nvim'} }
+      }
 
       -- some snippet
       use 'L3MON4D3/LuaSnip'
@@ -101,6 +104,11 @@ return require('packer').startup{
 
       use "junegunn/fzf"
       use "junegunn/fzf.vim"
+
+      use "folke/which-key.nvim"
+
+      use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
+
 
       if PACK_BOOTSTRAP then
           require("packer").sync()
