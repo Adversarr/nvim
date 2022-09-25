@@ -89,7 +89,7 @@ capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-Servers = { 'cmake', 'rust_analyzer', 'csharp_ls','lua-language-server' }
+Servers = { 'cmake', 'rust_analyzer', 'csharp_ls'}
 for _, lsp in ipairs(Servers) do
     lspconfig[lsp].setup {
         on_attach = on_attach,
