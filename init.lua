@@ -17,6 +17,8 @@ require "user.fzf"
 require "user.whichkey"
 require "user.comment"
 
+require "user.toggleterm"
+
 require "myself.options"
 require "myself.cmake"
 require "myself.filetype"
