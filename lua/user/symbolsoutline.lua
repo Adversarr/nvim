@@ -1,4 +1,4 @@
-vim.g.symbols_outline = {
+local opts = {
     highlight_hovered_item = true,
     show_guides = true,
     auto_preview = true,
@@ -11,19 +11,19 @@ vim.g.symbols_outline = {
     show_symbol_details = true,
     preview_bg_highlight = 'Pmenu',
     keymaps = { -- These keymaps can be a string or a table for multiple keys
-    close = {"<Esc>", "q"},
-    goto_location = "<Cr>",
-    focus_location = "o",
-    hover_symbol = "<C-space>",
-    toggle_preview = "K",
-    rename_symbol = "r",
-    code_actions = "a",
-},
+      close = {"<Esc>", "q"},
+      goto_location = "<Cr>",
+      focus_location = "o",
+      hover_symbol = "<C-space>",
+      toggle_preview = "K",
+      rename_symbol = "r",
+      code_actions = "a",
+    },
 
-lsp_blacklist = {},
-symbol_blacklist = {},
+    lsp_blacklist = {},
+    symbol_blacklist = {},
 
-symbols = {
+    symbols = {
     File = {icon = "", hl = "TSURI"},
     Module = {icon = "", hl = "TSNamespace"},
     Namespace = {icon = "", hl = "TSNamespace"},
@@ -35,7 +35,7 @@ symbols = {
     Constructor = {icon = "", hl = "TSConstructor"},
     Enum = {icon = "ℰ", hl = "TSType"},
     Interface = {icon = "ﰮ", hl = "TSType"},
-    Function = {icon = "", hl = "TSFunction"},
+    Function = {icon = "ƒ", hl = "TSFunction"},
     Variable = {icon = "", hl = "TSConstant"},
     Constant = {icon = "", hl = "TSConstant"},
     String = {icon = "𝓐", hl = "TSString"},
@@ -50,6 +50,11 @@ symbols = {
     Event = {icon = "🗲", hl = "TSType"},
     Operator = {icon = "+", hl = "TSOperator"},
     TypeParameter = {icon = "𝙏", hl = "TSParameter"}
+    }
 }
 
-}
+local status_ok, outline = pcall(require, "symbols-outline")
+if status_ok then
+  outline.setup(opts)
+end
+
