@@ -22,7 +22,7 @@ vim.opt.splitright = true
 vim.opt.updatetime = 100
 
 vim.opt.termguicolors = true
-vim.opt.wrap = false
+vim.opt.wrap = true
 
 vim.opt.cursorline =  true
 

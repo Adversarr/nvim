@@ -9,9 +9,9 @@ end
 ntree.setup {
     auto_reload_on_write = true,
     disable_netrw = true,
-    hide_root_folder = false,
+    -- hide_root_folder = false,
     hijack_cursor = true,
-    hijack_netrw = false,
+    hijack_netrw = true,
     hijack_unnamed_buffer_when_opening = false,
     ignore_buffer_on_setup = false,
     open_on_setup = true,
@@ -20,6 +20,7 @@ ntree.setup {
     sort_by = "name",
     update_cwd = false,
     view = {
+      adaptive_size=true,
         width = 30,
         height = 30,
         side = "left",
@@ -36,15 +37,21 @@ ntree.setup {
     },
     renderer = {
         indent_markers = {
-            enable = true,
-            icons = {
-                corner = "└ ",
-                edge = "│ ",
-                none = "  ",
-            },
+          enable = true,
+          icons = {
+            corner = "└ ",
+            edge = "│ ",
+            none = "  ",
+          },
         },
         icons = {
             webdev_colors = true,
+            glyphs = {
+              git = {
+                unstaged = "★",
+                untracked = "*"
+              },
+            }
         },
     },
     hijack_directories = {

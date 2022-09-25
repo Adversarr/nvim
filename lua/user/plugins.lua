@@ -43,12 +43,17 @@ return require('packer').startup{
       -- Packer can manage itself
       use 'wbthomason/packer.nvim'
 
+      -- whichkey.
+      use 'folke/which-key.nvim'
+
       -- colorschemes
       use 'morhetz/gruvbox'
 
       -- lspconfig
       use 'neovim/nvim-lspconfig'
-      use 'williamboman/nvim-lsp-installer'
+      -- use 'williamboman/nvim-lsp-installer'
+      use 'williamboman/mason.nvim'
+      use 'williamboman/mason-lspconfig.nvim'
 
       -- clangd extension
       use "p00f/clangd_extensions.nvim"
@@ -76,10 +81,13 @@ return require('packer').startup{
       -- git intergation
       use "lewis6991/gitsigns.nvim"
 
+      -- Commenter.
+      use 'numToStr/Comment.nvim'
+
       -- file explorer
       use {
           "kyazdani42/nvim-tree.lua",
-          requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+          requires = { 'kyazdani42/nvim-web-devicons' }
       }
 
       -- symbols outline

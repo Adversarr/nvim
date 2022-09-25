@@ -1,4 +1,4 @@
-vim.g.mapleader  = " "
+vim.g.mapleader  = "\\"
 vim.g.maplocalleader = ""
 
 require "user.keymaps"
@@ -14,9 +14,11 @@ require "user.symbolsoutline"
 require "user.lualine"
 require "user.bufferline"
 require "user.fzf"
+require "user.comment"
 
 require "myself.options"
 require "myself.cmake"
 require "myself.filetype"
 
 vim.cmd [[colorscheme gruvbox]]
+
