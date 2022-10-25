@@ -19,13 +19,19 @@ end
 local status_ok, mason_config = pcall(require, "mason-lspconfig")
 if not status_ok then 
   vim.notify("mason-lspconfig not found.")
+  return
 end
 
 mason_config.setup({
-  ensure_installed = { 'clangd' },
+  ensure_installed = { 'pyright' },
   automatic_installation = false,
 })
 
+mason_config.setup_handlers {
+  function (server_name) 
+    require("lspconfig")[server_name].setup {}
+  end,
+}
 
 ---- lspconfig
 local lspconfig
@@ -89,7 +95,7 @@ capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-Servers = { 'cmake', 'rust_analyzer', 'csharp_ls'}
+Servers = { 'cmake', 'pyright'}
 for _, lsp in ipairs(Servers) do
     lspconfig[lsp].setup {
         on_attach = on_attach,
@@ -113,7 +119,18 @@ require("clangd_extensions").setup {
     server = {
         -- options to pass to nvim-lspconfig
         -- i.e. the arguments to require("lspconfig").clangd.setup({})
-        on_attach = on_attach
+        on_attach = on_attach, 
+        cmd = {
+          'clangd',
+          "-j=8",
+          "--header-insertion=never",
+          "--pch-storage=memory",
+          "--completion-style=detailed",
+          "--ranking-model=heuristics",
+          "--log=error",
+          "--background-index",
+        }
+
     },
     extensions = {
         -- defaults:
@@ -168,24 +185,24 @@ require("clangd_extensions").setup {
                 TemplateParamObject = "🆃",
             },
             -- These require codicons (https://github.com/microsoft/vscode-codicons)
-            -- role_icons = {
-            --     type = "",
-            --     declaration = "",
-            --     expression = "",
-            --     specifier = "",
-            --     statement = "",
-            --     ["template argument"] = "",
-            -- },
+             role_icons = {
+                 type = "",
+                 declaration = "",
+                 expression = "",
+                 specifier = "",
+                 statement = "",
+                 ["template argument"] = "",
+             },
             --
-            -- kind_icons = {
-            --     Compound = "",
-            --     Recovery = "",
-            --     TranslationUnit = "",
-            --     PackExpansion = "",
-            --     TemplateTypeParm = "",
-            --     TemplateTemplateParm = "",
-            --     TemplateParamObject = "",
-            -- },
+             kind_icons = {
+                 Compound = "",
+                 Recovery = "",
+                 TranslationUnit = "",
+                 PackExpansion = "",
+                 TemplateTypeParm = "",
+                 TemplateTemplateParm = "",
+                 TemplateParamObject = "",
+             },
 
             highlights = {
                 detail = "Comment",
