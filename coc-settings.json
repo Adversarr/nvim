@@ -11,7 +11,8 @@
     "--clang-tidy"
   ],
   "clangd.compilationDatabaseCandidates": [
-    "${workspaceFolder}"
+    "${workspaceFolder}",
+    "${workspaceFolder}/build"
   ],
   "inlayHint.parameterSeparator": " "
 }

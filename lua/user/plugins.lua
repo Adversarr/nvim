@@ -184,10 +184,16 @@ return packer.startup(function(use)
         branch = "release"
     }
 
+    -- Treesitter:
+    use {
+      "nvim-treesitter/nvim-treesitter"
+    }
+
     -- Dap:
     -- TODO:
 
     -- Toggle Term:
+    use 'akinsho/toggleterm.nvim'
 
     -- glsl:
     use 'tikhomirov/vim-glsl'
