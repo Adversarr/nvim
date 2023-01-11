@@ -1,0 +1,17 @@
+{
+  "clangd.arguments": [
+    "-j=8",
+    "--header-insertion=never",
+    "--pch-storage=memory",
+    "--completion-style=detailed",
+    "--ranking-model=heuristics",
+    "--log=error",
+    "--background-index",
+    "--function-arg-placeholders=0",
+    "--clang-tidy"
+  ],
+  "clangd.compilationDatabaseCandidates": [
+    "${workspaceFolder}"
+  ],
+  "inlayHint.parameterSeparator": " "
+}
