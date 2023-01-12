@@ -4,6 +4,10 @@ if lualine == nil then
     return
 end
 
+local function getCurrentFunctionSymbol()
+  return vim.fn.CocAction('getCurrentFunctionSymbol')
+end
+
 local config = {
   options = {
     icons_enabled = true,
@@ -26,7 +30,7 @@ local config = {
   sections = {
     lualine_a = {'mode'},
     lualine_b = {'branch', 'diff', 'diagnostics'},
-    lualine_c = {'filename'},
+    lualine_c = {'filename', getCurrentFunctionSymbol },
     lualine_x = {'encoding', 'filetype'},
     lualine_y = {'progress'},
     lualine_z = {'location'}
