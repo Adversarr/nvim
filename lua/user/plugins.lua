@@ -188,6 +188,7 @@ return packer.startup(function(use)
         'neoclide/coc.nvim',
         branch = "release"
     }
+    use { 'liuchengxu/vista.vim' }
 
     -- Treesitter:
     use {

@@ -57,7 +57,7 @@ local which_key_config = {
     align = "left", -- align columns left, center or right
   },
   ignore_missing = false, -- enable this to hide mappings for which you didn't specify a label
-  hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ "}, -- hide mapping boilerplate
+  hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ " }, -- hide mapping boilerplate
   show_help = true, -- show help message on the command line when the popup is visible
   show_keys = true, -- show the currently pressed key and its label as a message in the command line
   triggers = "auto", -- automatically setup triggers
@@ -72,8 +72,8 @@ local which_key_config = {
   -- disable the WhichKey popup for certain buf types and file types.
   -- Disabled by deafult for Telescope
   disable = {
-    buftypes = {},
-    filetypes = { "TelescopePrompt", "NvimTree"},
+    buftypes = { "coctree" },
+    filetypes = { "coctree", "TelescopePrompt", "NvimTree" },
   },
 }
 
