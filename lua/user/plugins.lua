@@ -43,7 +43,7 @@ local ensure_packer = function()
     local fn = vim.fn
     local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
     if fn.empty(fn.glob(install_path)) > 0 then
-        fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+        fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
         vim.cmd [[packadd packer.nvim]]
         return true
     end
@@ -137,25 +137,28 @@ packer.init({
 })
 
 return packer.startup(function(use)
-    use {'wbthomason/packer.nvim'}
+    use { 'wbthomason/packer.nvim' }
     -- TODO: Add other plugins...
     -- Internal utilities.
-    use {"Tastyep/structlog.nvim"}
-    use {'nvim-lua/plenary.nvim'}
-    use {'kyazdani42/nvim-web-devicons'}
-
+    use { "Tastyep/structlog.nvim" }
+    use { 'nvim-lua/plenary.nvim' }
+    use { 'kyazdani42/nvim-web-devicons' }
+    use {
+        'rcarriga/nvim-notify'
+    }
     use {
         'b0o/schemastore.nvim',
-        ft = {'json'}
+        ft = { 'json' }
     }
 
     -- General utilities:
-    use {'folke/which-key.nvim'}
-    use {'numToStr/Comment.nvim'}
+    use { 'folke/which-key.nvim' }
+    use { 'numToStr/Comment.nvim' }
+    -- Dashboard
+    use { 'glepnir/dashboard-nvim' }
 
     -- Color schemes:
-    use {'lunarvim/onedarker.nvim'}
-    use {'folke/tokyonight.nvim'}
+    use { 'folke/tokyonight.nvim' }
 
     -- Telescope:
     use "nvim-telescope/telescope.nvim"
@@ -163,13 +166,15 @@ return packer.startup(function(use)
         'nvim-telescope/telescope-fzf-native.nvim',
         run = 'make'
     }
+    use { 'fannheyward/telescope-coc.nvim' }
+
 
     -- File explorer:
     use {
         'nvim-tree/nvim-tree.lua',
-        requires = {'nvim-tree/nvim-web-devicons'}
+        requires = { 'nvim-tree/nvim-web-devicons' }
     }
-    use {'lewis6991/gitsigns.nvim'}
+    use { 'lewis6991/gitsigns.nvim' }
 
     -- Status line:
     use 'nvim-lualine/lualine.nvim'
@@ -186,7 +191,7 @@ return packer.startup(function(use)
 
     -- Treesitter:
     use {
-      "nvim-treesitter/nvim-treesitter"
+        "nvim-treesitter/nvim-treesitter"
     }
 
     -- Dap:
@@ -199,31 +204,25 @@ return packer.startup(function(use)
     use 'tikhomirov/vim-glsl'
 
     -- Edit Enhancing:
-    use "folke/trouble.nvim"
+    use 'lukas-reineke/indent-blankline.nvim'
     use {
         "folke/todo-comments.nvim",
         requires = "nvim-lua/plenary.nvim"
     }
     use {
         'iamcco/markdown-preview.nvim',
-        ft = {'markdown'}
+        ft = { 'markdown' }
     }
     use {
         'preservim/vim-markdown',
         require = 'godlygeek/tabular',
-        ft = {'markdown'}
+        ft = { 'markdown' }
     }
-    use {
-        'rmagatti/goto-preview'
-    }
-    use {
-        'rcarriga/nvim-notify'
-    }
-
+    
     -- Tex & LaTex:
     use {
         'lervag/vimtex',
-        ft = {'tex'}
+        ft = { 'tex' }
     }
 
 

@@ -1,3 +1,4 @@
+local utils = require "user.utils"
 -- Some servers have issues with backup files, see #649
 vim.opt.backup = false
 vim.opt.writebackup = false
@@ -184,3 +185,12 @@ local opts = {silent = true, nowait = true}
 -- keyset("n", "<space>k", ":<C-u>CocPrev<cr>", opts)
 -- -- Resume latest coc list
 -- keyset("n", "<space>p", ":<C-u>CocListResume<cr>", opts)
+
+
+
+-- Register telescope:
+local telescope = utils.load_plug('telescope')
+if telescope == nil then
+    return
+end
+telescope.load_extension('coc')

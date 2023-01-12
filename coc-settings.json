@@ -14,5 +14,6 @@
     "${workspaceFolder}",
     "${workspaceFolder}/build"
   ],
+  "clangd.inlayHints.enable": true,
   "inlayHint.parameterSeparator": " "
 }

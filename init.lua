@@ -1,6 +1,4 @@
-COLORSCHEME = 'onedarker'
-ENABLE_FZF = true
-
+require "config"
 require "user.plugins"
 require "user.general"
 
@@ -10,20 +8,21 @@ require 'plugs.notify'
 
 
 -- Ui:
+require 'plugs.dashboard'
 require "plugs.nvim-tree"
 require "plugs.lualine"
 require "plugs.bufferline"
 require "plugs.gitsigns"
 require "plugs.telescope"
 require "plugs.toggleterm"
-require 'plugs.trouble'
+
 
 
 -- Editor:
 require 'plugs.todocomment'
 require "plugs.comment"
-require 'plugs.goto-preview'
 require 'plugs.treesitter'
+require 'plugs.indent_blankline'
 
 -- Languages:
 require "plugs.coc"

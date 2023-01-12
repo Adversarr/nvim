@@ -1,4 +1,4 @@
-load_plug = function(name)
+local load_plug = function(name)
     local status, plug = pcall(require, name)
     if not status then
         vim.notify(name .. " not found.", vim.log.levels.WARN)
@@ -21,7 +21,7 @@ Example:
     },
   }, { prefix = "<leader>" })
 ]]
-wk_register = function(config)
+local wk_register = function(config)
     local wk = load_plug('which-key')
     if wk == nil then
         vim.notify("Failed to register whichkey")
@@ -30,7 +30,7 @@ wk_register = function(config)
     wk.register(config)
 end
 
-generate_default_setup = function(plug_name)
+local generate_default_setup = function(plug_name)
   return function()
     local plug = load_plug(plug_name)
     if plug == nil then
@@ -41,7 +41,7 @@ generate_default_setup = function(plug_name)
   end
 end
 
-default_setup = function(plug_name)
+local default_setup = function(plug_name)
   local setup_function = generate_default_setup(plug_name)
   setup_function()
 end
