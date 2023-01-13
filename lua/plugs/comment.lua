@@ -1,5 +1,5 @@
 local utils = require('user.utils')
-local comment = utils.load_plug('comment')
+local comment = utils.load_plug('Comment')
 if comment == nil then
   return
 end
@@ -14,9 +14,9 @@ local comment_config = {
   ---LHS of toggle mappings in NORMAL mode
   toggler = {
       ---Line-comment toggle keymap
-      line = '<C-/>',
+      line = 'gcc',
       ---Block-comment toggle keymap
-      block = '<C-?>',
+      block = 'gcb',
   },
   ---LHS of operator-pending mappings in NORMAL and VISUAL mode
   opleader = {
