@@ -15,8 +15,8 @@ local config = {
     component_separators = { left = '', right = ''},
     section_separators = { left = '', right = ''},
     disabled_filetypes = {
-      statusline = { "NvimTree", "ToggleTerm" },
-      winbar = {},
+      statusline = { "NvimTree", "ToggleTerm", "Top"},
+      winbar = {"NvimTree", "ToggleTerm", "Top", "coctree'"},
     },
     ignore_focus = {},
     always_divide_middle = true,

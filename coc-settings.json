@@ -15,5 +15,6 @@
     "${workspaceFolder}/build"
   ],
   "clangd.inlayHints.enable": true,
-  "inlayHint.parameterSeparator": " "
+  "inlayHint.parameterSeparator": " ",
+  "suggest.noselect": true
 }
