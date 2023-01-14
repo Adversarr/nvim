@@ -20,5 +20,6 @@ local config = {
 }
 
 local autopair = utils.load_plug('nvim-autopairs')
-
-autopair.setup(config)
+if autopair then
+  autopair.setup(config)
+end
