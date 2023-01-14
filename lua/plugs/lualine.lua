@@ -33,7 +33,7 @@ local config = {
     }
   },
   sections = {
-    lualine_a = {{'mode', fmt= function(str) return str:sub(1, 1) end}},
+    lualine_a = {{'mode'--[[ , fmt= function(str) return str:sub(1, 1) end ]]}},
     lualine_b = {'branch', 'diff', 'diagnostics'},
     lualine_c = {{'filename',
         file_status = true,      -- Displays file status (readonly status, modified status)

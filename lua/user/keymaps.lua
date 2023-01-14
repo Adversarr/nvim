@@ -89,8 +89,18 @@ reg {
   ["<C-K>"] = { "<c-w>k", "Jump to window up" },
   ["<C-L>"] = { "<c-w>l", "Jump to window right" },
   ["<M-k>"] = { "<cmd>move .-2<cr>==", "Move current line -2" },
-  ["<M-j>"] = { "<cmd>move .+1<cr>==", "Move current line +1" }
+  ["<M-j>"] = { "<cmd>move .+1<cr>==", "Move current line +1" },
+  ["<M-1>"] = { "<cmd>ToggleTerm<cr>", "Toggle Term default."},
+  ["<M-2>"] = { "<cmd>ToggleTerm direction=vertical<cr>", "Toggle Term vertical."},
+  ["<M-3>"] = { "<cmd>ToggleTerm direction=float<cr>", "Toggle Term float."}
 }
+
+-- For Terminal:
+reg ({
+  ["<M-1>"] = { "<cmd>ToggleTerm<cr>", "Toggle Term default."},
+  ["<M-2>"] = { "<cmd>ToggleTerm direction=vertical<cr>", "Toggle Term vertical."},
+  ["<M-3>"] = { "<cmd>ToggleTerm direction=float<cr>", "Toggle Term float."}
+}, { mode = 't'})
 
 reg({
   ["<M-k>"] = { ":move '<lt>-2<cr>gv-gv", "Move current line -2" },
@@ -177,3 +187,4 @@ reg ({
   i = { "<Plug>(coc-implementation)", "Implementation" },
   r = { "<Plug>(coc-references)", "References" },
 }, { prefix = "g" })
+

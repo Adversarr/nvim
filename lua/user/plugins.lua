@@ -178,8 +178,6 @@ return packer.startup(function(use)
 
     -- Status line:
     use 'nvim-lualine/lualine.nvim'
-    -- use 'vim-airline/vim-airline'
-    -- use 'vim-airline/vim-airline-themes'
 
     -- Buffer Line:
     use {'akinsho/bufferline.nvim', tag = "v3.*", requires = 'nvim-tree/nvim-web-devicons'}

@@ -10,3 +10,6 @@ if plug == nil then
   return
 end
 plug.setup(config)
+vim.g.indent_blankline_char_blankline = '┆'
+vim.g.indent_blankline_show_end_of_line = true
+
