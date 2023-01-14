@@ -1,7 +1,7 @@
 local utils = require("user.utils")
 
 local config = {
-  disable_filetype = { "TelescopePrompt", "NvimTree", "coctree", "vista" },
+  disable_filetype = { "TelescopePrompt", "NvimTree", "coctree", "vista", "dashboard" },
   disable_in_macro = false,  -- disable when recording or executing a macro
   disable_in_visualblock = false, -- disable when insert after visual block mode
   disable_in_replace_mode = true,

@@ -66,6 +66,9 @@ local config = {
           if vim.bo[buf_number].filetype ~= "list" then
             return true
           end
+          if vim.bo[buf_number].filetype ~= "dashboard" then
+            return true
+          end
           if vim.bo[buf_number].filetype ~= "coctree" then
             return true
           end
