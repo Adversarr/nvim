@@ -29,7 +29,7 @@ require 'plugs.autopair'
 require "plugs.coc"
 require 'plugs.markdown'
 require 'plugs.glsl'
-require "plugs.vista"
+-- require "plugs.vista"
 
 -- After load everything, apply keymaps.
 require "user.keymaps"

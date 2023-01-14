@@ -17,5 +17,6 @@
   "clangd.inlayHints.enable": true,
   "inlayHint.parameterSeparator": " ",
   "suggest.noselect": true,
-  "coc.preferences.currentFunctionSymbolAutoUpdate": true
+  "coc.preferences.currentFunctionSymbolAutoUpdate": true,
+  "tree.key.toggleSelection": "<cr>"
 }
