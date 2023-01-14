@@ -126,6 +126,54 @@ reg({
     p = { "<cmd>Telescope find_files<cr>", "Files" },
     P = { "<cmd>Telescope commands<cr>", "Commands" },
     t = { "<cmd>Telescope live_grep use_regex=true<cr>", "Find string in ws" },
+  },
+  l = {
+    name = "Lsp & Coc",
+    a = { 
+      name = "Code Action",
+      c = { "<Plug>(coc-codeaction-cursor)", "Action for cursor" },
+      s = { "<Plug>(coc-codeaction-source)", "Action for source" },
+      b = { "<Plug>(coc-codeaction-buffer)", "Action for buffer" },
+      a = { "<Plug>(coc-codelense-action)", "CodeLense action" },
+      q = { "<Plug>(coc-fix-current)", "Quickfix Current" },
+    },
+    c = { "<Plug>(coc-codelens-action)", "CodeLens Action"},
+    q = { "<Plug>(coc-fix-current)", "Quickfix Current" },
+    o = { "<cmd>Vista coc<cr>", "Open Vista outline for coc"},
+    O = { "<cmd>Vista!<cr>", "Close Vista."},
+    k = { "<Plug>(coc-diagnostic-prev)", "Goto previous diagnostic" },
+    j = { "<Plug>(coc-diagnostic-next)", "Goto next diagnostic" },
+    f = { "<Plug>(coc-format-document)", "Format current document" },
+    t = { "<cmd>Telescope coc commands<cr>", "Telescope commands" },
+    d = { "<cmd>Telescope coc diagnostic<cr>", "Document Diagnostics"},
+    D = { "<cmd>Telescope coc workspace_diagnostic<cr>", "Document Diagnostics"},
+    s = { "<cmd>Telescope coc document_symbols<cr>", "Document Symbols" },
+    S = { "<cmd>Telescope coc workspace_symbols<cr>", "Workspace Symbols" },
+    l = {
+      name = "CocList",
+      d = { "<cmd>CocList diagnostics<cr>", "Diagnostics" },
+      e = { "<cmd>CocList extensions<cr>", "Diagnostics" },
+      o = { "<cmd>CocList outline<cr>", "Diagnostics" },
+      s = { "<cmd>CocList -I symbols<cr>", "Diagnostics" },
+      p = { "<cmd>CocListResume<cr>", "Resume" },
+      j = { "<cmd>CocListNext<cr>", "Coc default next" },
+      k = { "<cmd>CocListPrev<cr>", "Coc default prev" },
+
+    },
+    r = {
+      name = "Refactor and rename",
+      r = { "<Plug>(coc-rename)", "Rename symble under cursor" },
+      n = { "<Plug>(coc-rename)", "Rename symble under cursor" },
+      e = { "<Plug>(coc-codeaction-refactor)", "Refactor"}
+    }
   }
 
 }, { prefix = "<leader>" })
+
+reg ({
+  name = "Coc Goto...",
+  d = { "<Plug>(coc-definition)", "Definition" },
+  t = { "<Plug>(coc-type-definition)", "Type Definition"},
+  i = { "<Plug>(coc-implementation)", "Implementation" },
+  r = { "<Plug>(coc-references)", "References" },
+}, { prefix = "g" })

@@ -178,9 +178,11 @@ return packer.startup(function(use)
 
     -- Status line:
     use 'nvim-lualine/lualine.nvim'
+    -- use 'vim-airline/vim-airline'
+    -- use 'vim-airline/vim-airline-themes'
 
     -- Buffer Line:
-    use 'akinsho/bufferline.nvim'
+    use {'akinsho/bufferline.nvim', tag = "v3.*", requires = 'nvim-tree/nvim-web-devicons'}
 
     -- Lsp: will call setup in init.lua,
     -- use 'RRethy/vim-illuminate'
@@ -203,6 +205,12 @@ return packer.startup(function(use)
 
     -- glsl:
     use 'tikhomirov/vim-glsl'
+    -- Markdown:
+    use {
+        'preservim/vim-markdown',
+        require = 'godlygeek/tabular',
+        ft = { 'markdown' }
+    }
 
     -- Edit Enhancing:
     use 'lukas-reineke/indent-blankline.nvim'
@@ -215,9 +223,7 @@ return packer.startup(function(use)
         ft = { 'markdown' }
     }
     use {
-        'preservim/vim-markdown',
-        require = 'godlygeek/tabular',
-        ft = { 'markdown' }
+        'windwp/nvim-autopairs' 
     }
     
     -- Tex & LaTex:

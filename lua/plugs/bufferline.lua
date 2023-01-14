@@ -1,4 +1,23 @@
 -- Highly recommended: vim.opt.termguicolors = true
+-- Reference: LunarVim
+local function diagnostics_indicator(num, _, diagnostics, _)
+  local result = {}
+  local symbols = {
+    error = " ",
+    warning = " ",
+    info = ""
+  }
+  for name, count in pairs(diagnostics) do
+    if symbols[name] and count > 0 then
+      table.insert(result, symbols[name] .. " " .. count)
+    end
+  end
+  result = table.concat(result, " ")
+  return #result > 0 and result or ""
+end
+
+
+
 local config = {
   options = {
       mode = "buffer", -- set to "tabs" to only show tabpages instead, default = "buffer"
@@ -34,20 +53,24 @@ local config = {
       diagnostics = 'coc',    -- false | "nvim_lsp" | "coc",
       diagnostics_update_in_insert = false,
       -- The diagnostics indicator can be set to nil to keep the buffer name highlight but delete the highlighting
-      diagnostics_indicator = function(count, level, diagnostics_dict, context)
-        local s = " "
-        for e, n in pairs(diagnostics_dict) do
-          local sym = e == "error" and " "
-            or (e == "warning" and " " or "" )
-          s = s .. n .. sym
-        end
-        return s
-      end,
+      diagnostics_indicator = diagnostics_indicator,
       -- NOTE: this will be called a lot so don't do any heavy processing here
       custom_filter = function(buf_number, buf_numbers)
           -- filter out filetypes you don't want to see
           if vim.bo[buf_number].filetype ~= "NvimTree" then
               return true
+          end
+          if vim.bo[buf_number].filetype ~= "Vista" then
+            return true
+          end
+          if vim.bo[buf_number].filetype ~= "list" then
+            return true
+          end
+          if vim.bo[buf_number].filetype ~= "coctree" then
+            return true
+          end
+          if vim.bo[buf_number].filetype ~= "help" then
+            return true
           end
           -- -- filter out by buffer name
           -- if vim.fn.bufname(buf_number) ~= "<buffer-name-I-dont-want>" then
@@ -81,7 +104,7 @@ local config = {
       persist_buffer_sort = false, -- whether or not custom sorted buffers should persist
       -- can also be a table containing 2 custom separators
       -- [focused and unfocused]. eg: { '|', '|' }
-      separator_style = "thick", -- "slant" | "thick" | "thin" | { 'any', 'any' },
+      separator_style = "slant", -- "slant" | "thick" | "thin" | { 'any', 'any' },
       enforce_regular_tabs = false,
       always_show_bufferline = true,
       hover = {
@@ -89,7 +112,7 @@ local config = {
           delay = 200,
           reveal = {'close'}
       },
-      sort_by = 'tabs'
+      sort_by = 'insert_at_end'
       --[[
         'insert_after_current' |'insert_at_end' | 'id' | 'extension' | 'relative_directory' | 'directory' | 'tabs' | function(buffer_a, buffer_b)
           -- add custom logic
@@ -107,4 +130,6 @@ if bufferline == nil then
 end
 
 bufferline.setup(config)
+vim.cmd [[ autocmd BufWrite * lua require('bufferline.diagnostics').refresh_coc_diagnostics()]]
+
 

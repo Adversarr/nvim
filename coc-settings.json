@@ -16,5 +16,6 @@
   ],
   "clangd.inlayHints.enable": true,
   "inlayHint.parameterSeparator": " ",
-  "suggest.noselect": true
+  "suggest.noselect": true,
+  "coc.preferences.currentFunctionSymbolAutoUpdate": true
 }

@@ -23,12 +23,13 @@ require 'plugs.todocomment'
 require "plugs.comment"
 require 'plugs.treesitter'
 require 'plugs.indent_blankline'
+require 'plugs.autopair'
 
 -- Languages:
 require "plugs.coc"
 require 'plugs.markdown'
 require 'plugs.glsl'
-require "plugs.symbolsoutline"
+require "plugs.vista"
 
 -- After load everything, apply keymaps.
 require "user.keymaps"
