@@ -33,20 +33,3 @@ require "plugs.vimtex"
 
 -- After load everything, apply keymaps.
 require "user.keymaps"
-function run_job()
-  local Job = require'plenary.job'
-  Job:new({
-    command = 'ls',
-    args = { '' },
-    cwd = '~',
-    env = {},
-    on_exit = function(j, return_val)
-      print(return_val)
-      -- print(j:result())
-    end,
-    on_stdout = function(j, retval) 
-      print(retval)
-    end
-  }):sync() -- or start()
-end
-vim.api.nvim_create_user_command("HiLS", run_job, {})

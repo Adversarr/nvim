@@ -22,7 +22,7 @@ local config = { -- BEGIN_DEFAULT_OPTS
   sort_by = "name",
   root_dirs = {},
   prefer_startup_root = false,
-  sync_root_with_cwd = false,
+  sync_root_with_cwd = true,
   reload_on_bufenter = true,
   respect_buf_cwd = false,
   on_attach = "disable",
@@ -226,7 +226,7 @@ local config = { -- BEGIN_DEFAULT_OPTS
     },
     icons = {
       webdev_colors = true,
-      git_placement = "before",
+      git_placement = "after",
       modified_placement = "after",
       padding = " ",
       symlink_arrow = " ➛ ",

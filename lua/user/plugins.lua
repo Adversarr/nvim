@@ -194,6 +194,11 @@ return packer.startup(function(use)
     use {
         "nvim-treesitter/nvim-treesitter"
     }
+    -- NOTE: if you clone this repo, remember to replace the xmake-plugin location
+    --       to the remote one on github. i.e.:
+    --
+    -- use 'adversarr/xmake-nvim'
+    use '~/Repo/xmake-nvim'
 
     -- Dap:
     -- TODO:
