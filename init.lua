@@ -6,6 +6,8 @@ require "user.general"
 require "plugs.which-key"
 require 'plugs.notify'
 
+-- colorscheme
+require 'plugs.gruvbox'
 
 -- Ui:
 require 'plugs.dashboard'

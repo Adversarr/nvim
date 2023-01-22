@@ -2,7 +2,6 @@
   "clangd.arguments": [
     "-j=8",
     "--header-insertion=never",
-    "--pch-storage=memory",
     "--completion-style=detailed",
     "--ranking-model=heuristics",
     "--log=error",
@@ -18,5 +17,7 @@
   "inlayHint.parameterSeparator": " ",
   "suggest.noselect": true,
   "coc.preferences.currentFunctionSymbolAutoUpdate": true,
-  "tree.key.toggleSelection": "<cr>"
+  "tree.key.toggleSelection": "<cr>",
+  "outline.expandLevel": 4,
+  "outline.autoPreview": true
 }

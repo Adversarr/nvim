@@ -159,6 +159,7 @@ return packer.startup(function(use)
 
     -- Color schemes:
     use { 'folke/tokyonight.nvim' }
+    use { 'ellisonleao/gruvbox.nvim'}
 
     -- Telescope:
     use "nvim-telescope/telescope.nvim"
@@ -188,7 +189,6 @@ return packer.startup(function(use)
         'neoclide/coc.nvim',
         branch = "release"
     }
-    -- use { 'liuchengxu/vista.vim' }
 
     -- Treesitter:
     use {
