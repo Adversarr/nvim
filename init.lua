@@ -8,6 +8,7 @@ require 'plugs.notify'
 
 -- colorscheme
 require 'plugs.gruvbox'
+require 'plugs.catppuccin'
 
 -- Ui:
 require 'plugs.dashboard'

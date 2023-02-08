@@ -19,5 +19,7 @@
   "coc.preferences.currentFunctionSymbolAutoUpdate": true,
   "tree.key.toggleSelection": "<cr>",
   "outline.expandLevel": 4,
-  "outline.autoPreview": true
+  "outline.autoPreview": true,
+  "python.venvPath": "/opt/homebrew/anaconda3/envs/qt6;/opt/homebrew/anaconda3"
+
 }

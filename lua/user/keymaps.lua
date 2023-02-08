@@ -133,7 +133,7 @@ reg({
     D = { "<cmd>Telescope coc workspace_diagnostics<cr>", "Telescope Diagnostics" },
     d = { "<cmd>Telescope coc diagnostics<cr>", "Trouble Workspace Diagnostics" },
     b = { "<cmd>Telescope buffers<cr>", "Switch between buffers" },
-    p = { "<cmd>Telescope find_files<cr>", "Files" },
+    p = { "<cmd>Telescope find_files find_command=rg,--hidden,--files<cr>", "Files" },
     P = { "<cmd>Telescope commands<cr>", "Commands" },
     t = { "<cmd>Telescope live_grep use_regex=true<cr>", "Find string in ws" },
   },

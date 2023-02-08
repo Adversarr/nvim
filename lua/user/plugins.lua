@@ -160,6 +160,7 @@ return packer.startup(function(use)
     -- Color schemes:
     use { 'folke/tokyonight.nvim' }
     use { 'ellisonleao/gruvbox.nvim'}
+    use { "catppuccin/nvim", as = "catppuccin" }
 
     -- Telescope:
     use "nvim-telescope/telescope.nvim"
