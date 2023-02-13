@@ -35,8 +35,6 @@ keyset("i", "<C-k>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-k>"]], opts)
 -- <C-g>u breaks current undo, please make your own choice
 keyset("i", "<cr>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]], opts)
 
--- Use <c-j> to trigger snippets
-keyset("i", "<c-s>", "<Plug>(coc-snippets-expand-jump)")
 -- Use <c-space> to trigger completion
 keyset("i", "<c-space>", "coc#refresh()", {silent = true, expr = true})
 
@@ -65,7 +63,7 @@ vim.api.nvim_create_autocmd("CursorHold", {
 
 
 -- Symbol renaming
-
+-- see Whichkey Plugin.
 
 -- Formatting selected code
 keyset("x", "<leader>lf", "<Plug>(coc-format-selected)", {silent = true})
@@ -101,6 +99,12 @@ keyset("x", "ic", "<Plug>(coc-classobj-i)", opts)
 keyset("o", "ic", "<Plug>(coc-classobj-i)", opts)
 keyset("x", "ac", "<Plug>(coc-classobj-a)", opts)
 keyset("o", "ac", "<Plug>(coc-classobj-a)", opts)
+
+-- Keyset for Multi cursor
+keyset('n', "<C-c>", "<Plug>(coc-cursors-position)", {})
+keyset('n', "<C-d>", "<Plug>(coc-cursors-word)", {})
+keyset('x', "<C-d>", "<Plug>(coc-cursors-range)", {})
+keyset('n', "<leader>x", "<Plug>(coc-cursors-operator)", {})
 
 
 -- Remap <C-f> and <C-b> to scroll float windows/popups
