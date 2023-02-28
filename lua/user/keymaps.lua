@@ -90,7 +90,7 @@ reg {
   ["<C-L>"] = { "<c-w>l", "Jump to window right" },
   ["<M-k>"] = { "<cmd>move .-2<cr>==", "Move current line -2" },
   ["<M-j>"] = { "<cmd>move .+1<cr>==", "Move current line +1" },
-  ["<M-1>"] = { "<cmd>ToggleTerm<cr>", "Toggle Term default."},
+  ["<M-1>"] = { "<cmd>ToggleTerm direction=horizontal<cr>", "Toggle Term default."},
   ["<M-2>"] = { "<cmd>ToggleTerm direction=vertical<cr>", "Toggle Term vertical."},
   ["<M-3>"] = { "<cmd>ToggleTerm direction=float<cr>", "Toggle Term float."}
 }
@@ -150,7 +150,6 @@ reg({
     c = { "<Plug>(coc-codelens-action)", "CodeLens Action"},
     q = { "<Plug>(coc-fix-current)", "Quickfix Current" },
     o = { "<cmd>CocOutline<cr>", "Open coc-outline"},
-    O = { "<cmd>Vista!<cr>", "Close Vista."},
     k = { "<Plug>(coc-diagnostic-prev)", "Goto previous diagnostic" },
     j = { "<Plug>(coc-diagnostic-next)", "Goto next diagnostic" },
     f = { "<cmd>CocCommand editor.action.formatDocument<cr>", "Format current document" },

@@ -5,6 +5,7 @@
     "--completion-style=detailed",
     "--ranking-model=heuristics",
     "--log=error",
+    "--enable-config",
     "--background-index",
     "--function-arg-placeholders=0",
     "--clang-tidy"
