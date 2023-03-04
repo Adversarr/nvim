@@ -27,6 +27,7 @@ require "plugs.comment"
 require 'plugs.treesitter'
 require 'plugs.indent_blankline'
 require 'plugs.autopair'
+require 'plugs.neogen'
 
 -- Languages:
 require "plugs.coc"

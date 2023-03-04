@@ -200,6 +200,10 @@ return packer.startup(function(use)
     --
     -- use 'adversarr/xmake-nvim'
     use '~/Repo/xmake-nvim'
+    use {
+      'danymat/neogen',
+      requires = "nvim-treesitter/nvim-treesitter"
+    }
 
     -- Dap:
     -- TODO:

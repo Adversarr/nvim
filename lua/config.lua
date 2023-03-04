@@ -1,2 +1,2 @@
-COLORSCHEME = 'tokyonight-storm'
+COLORSCHEME = 'gruvbox'
 ENABLE_FZF = true

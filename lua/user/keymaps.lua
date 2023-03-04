@@ -158,6 +158,7 @@ reg({
     D = { "<cmd>Telescope coc workspace_diagnostic<cr>", "Document Diagnostics"},
     s = { "<cmd>Telescope coc document_symbols<cr>", "Document Symbols" },
     S = { "<cmd>Telescope coc workspace_symbols<cr>", "Workspace Symbols" },
+    n = { "<cmd>Neogen<cr>", "Neogen Doc String"},
     l = {
       name = "CocList",
       d = { "<cmd>CocList diagnostics<cr>", "Diagnostics" },
