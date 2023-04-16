@@ -107,7 +107,7 @@ local config = {
       persist_buffer_sort = false, -- whether or not custom sorted buffers should persist
       -- can also be a table containing 2 custom separators
       -- [focused and unfocused]. eg: { '|', '|' }
-      separator_style = "slant", -- "slant" | "thick" | "thin" | { 'any', 'any' },
+      separator_style = "thin", -- "slant" | "thick" | "thin" | { 'any', 'any' },
       enforce_regular_tabs = false,
       always_show_bufferline = true,
       hover = {

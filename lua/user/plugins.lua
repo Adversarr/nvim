@@ -199,7 +199,7 @@ return packer.startup(function(use)
     --       to the remote one on github. i.e.:
     --
     -- use 'adversarr/xmake-nvim'
-    use '~/Repo/xmake-nvim'
+    -- use '~/Repo/xmake-nvim'
     use {
       'danymat/neogen',
       requires = "nvim-treesitter/nvim-treesitter"
