@@ -14,7 +14,7 @@ require 'plugs.catppuccin'
 require 'plugs.dashboard'
 require "plugs.nvim-tree"
 require "plugs.lualine"
-require "plugs.bufferline"
+require "plugs.bufferline" -- catppuccin says: bufferline should be loaded after.
 require "plugs.gitsigns"
 require "plugs.telescope"
 require "plugs.toggleterm"
@@ -35,5 +35,14 @@ require 'plugs.markdown'
 require 'plugs.glsl'
 require "plugs.vimtex"
 
+-- Dev
+require "plugs.neodev"
+
+-- Debugger.
+require "plugs.dap"
+require "plugs.dapui"
+
 -- After load everything, apply keymaps.
 require "user.keymaps"
+
+

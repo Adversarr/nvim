@@ -9,9 +9,9 @@ end
 local reg = wk.register
 
 
--- Reference: https://github.com/LunarVim/LunarVim/lua/lvim/core/bufferline.lua
 local function try_close_buffer(kill_command, bufnr, force)
   kill_command = kill_command or "bd"
+  -- Reference: https://github.com/LunarVim/LunarVim/lua/lvim/core/bufferline.lua
 
   local bo = vim.bo
   local api = vim.api
@@ -90,21 +90,23 @@ reg {
   ["<C-L>"] = { "<c-w>l", "Jump to window right" },
   ["<M-k>"] = { "<cmd>move .-2<cr>==", "Move current line -2" },
   ["<M-j>"] = { "<cmd>move .+1<cr>==", "Move current line +1" },
-  ["<M-1>"] = { "<cmd>ToggleTerm direction=horizontal<cr>", "Toggle Term default."},
-  ["<M-2>"] = { "<cmd>ToggleTerm direction=vertical<cr>", "Toggle Term vertical."},
-  ["<M-3>"] = { "<cmd>ToggleTerm direction=float<cr>", "Toggle Term float."}
+  ["<M-3>"] = { "<cmd>ToggleTerm direction=float<cr>", "Toggle Term float." },
+  ["<M-q>"] = { "<cmd>q<cr>", "Quit the window" },
+  ["<M-c>"] = { try_close_buffer, "Quit the window" },
+  ["<M-h>"] = { "<cmd>BufferLineCyclePrev<cr>", "Prev buffer" },
+  ["<M-l>"] = { "<cmd>BufferLineCycleNext<cr>", "Next buffer" },
 }
 
 -- For Terminal:
-reg ({
-  ["<M-1>"] = { "<cmd>ToggleTerm<cr>", "Toggle Term default."},
-  ["<M-2>"] = { "<cmd>ToggleTerm direction=vertical<cr>", "Toggle Term vertical."},
-  ["<M-3>"] = { "<cmd>ToggleTerm direction=float<cr>", "Toggle Term float."}
-}, { mode = 't'})
+reg({
+  ["<M-1>"] = { "<cmd>ToggleTerm<cr>", "Toggle Term default." },
+  ["<M-2>"] = { "<cmd>ToggleTerm direction=vertical<cr>", "Toggle Term vertical." },
+  ["<M-3>"] = { "<cmd>ToggleTerm direction=float<cr>", "Toggle Term float." }
+}, { mode = 't' })
 
 reg({
   ["<M-k>"] = { ":move '<lt>-2<cr>gv-gv", "Move current line -2" },
-  ["<M-j>"] = { ":move '>+1<cr>gv-gv", "Move current line +1" }
+  ["<M-j>"] = { ":move '>+1<cr>gv-gv", "Move current line +1" },
 }, { mode = 'x' })
 
 
@@ -133,13 +135,15 @@ reg({
     D = { "<cmd>Telescope coc workspace_diagnostics<cr>", "Telescope Diagnostics" },
     d = { "<cmd>Telescope coc diagnostics<cr>", "Trouble Workspace Diagnostics" },
     b = { "<cmd>Telescope buffers<cr>", "Switch between buffers" },
-    p = { "<cmd>Telescope find_files find_command=rg,--hidden,--files<cr>", "Files" },
-    P = { "<cmd>Telescope commands<cr>", "Commands" },
+    -- p = { "<cmd>Telescope find_files find_command=rg,--hidden,--files<cr>", "Files" },
+    p = { "<cmd>Telescope git_files show_untracked=true<cr>", "Git Files." },
+    -- P = { "<cmd>Telescope commands<cr>", "Commands" },
+    P = { "<cmd>Telescope find_files find_command=rg,--hidden,--files<cr>", "Files" },
     t = { "<cmd>Telescope live_grep use_regex=true<cr>", "Find string in ws" },
   },
   l = {
     name = "Lsp & Coc",
-    a = { 
+    a = {
       name = "Code Action",
       c = { "<Plug>(coc-codeaction-cursor)", "Action for cursor" },
       s = { "<Plug>(coc-codeaction-source)", "Action for source" },
@@ -147,18 +151,19 @@ reg({
       a = { "<Plug>(coc-codelense-action)", "CodeLense action" },
       q = { "<Plug>(coc-fix-current)", "Quickfix Current" },
     },
-    c = { "<Plug>(coc-codelens-action)", "CodeLens Action"},
+    c = { "<Plug>(coc-codelens-action)", "CodeLens Action" },
     q = { "<Plug>(coc-fix-current)", "Quickfix Current" },
-    o = { "<cmd>CocOutline<cr>", "Open coc-outline"},
+    o = { "<cmd>CocOutline<cr>", "Open coc-outline" },
     k = { "<Plug>(coc-diagnostic-prev)", "Goto previous diagnostic" },
     j = { "<Plug>(coc-diagnostic-next)", "Goto next diagnostic" },
     f = { "<cmd>CocCommand editor.action.formatDocument<cr>", "Format current document" },
     t = { "<cmd>Telescope coc commands<cr>", "Telescope commands" },
-    d = { "<cmd>Telescope coc diagnostic<cr>", "Document Diagnostics"},
-    D = { "<cmd>Telescope coc workspace_diagnostic<cr>", "Document Diagnostics"},
+    d = { "<cmd>Telescope coc diagnostic<cr>", "Document Diagnostics" },
+    D = { "<cmd>Telescope coc workspace_diagnostic<cr>", "Document Diagnostics" },
     s = { "<cmd>Telescope coc document_symbols<cr>", "Document Symbols" },
     S = { "<cmd>Telescope coc workspace_symbols<cr>", "Workspace Symbols" },
-    n = { "<cmd>Neogen<cr>", "Neogen Doc String"},
+    h = { "<cmd>CocCommand clangd.switchSourceHeader<cr>", "Switch Source Header"},
+    n = { "<cmd>Neogen<cr>", "Neogen Doc String" },
     l = {
       name = "CocList",
       d = { "<cmd>CocList diagnostics<cr>", "Diagnostics" },
@@ -174,17 +179,26 @@ reg({
       name = "Refactor and rename",
       r = { "<Plug>(coc-rename)", "Rename symble under cursor" },
       n = { "<Plug>(coc-rename)", "Rename symble under cursor" },
-      e = { "<Plug>(coc-codeaction-refactor)", "Refactor"}
+      e = { "<Plug>(coc-codeaction-refactor)", "Refactor" }
     }
   }
 
 }, { prefix = "<leader>" })
 
-reg ({
+reg({
   name = "Coc Goto...",
   d = { "<Plug>(coc-definition)", "Definition" },
-  t = { "<Plug>(coc-type-definition)", "Type Definition"},
+  t = { "<Plug>(coc-type-definition)", "Type Definition" },
   i = { "<Plug>(coc-implementation)", "Implementation" },
   r = { "<Plug>(coc-references)", "References" },
 }, { prefix = "g" })
+
+
+reg({
+  name = 'Dap',
+  o = { require("dapui").open, "Open DapUI" },
+  c = { require('dapui').close, "Close DapUI" },
+  d = { require('dapui').toggle, "Toggle DapUI"}
+
+}, { prefix = '<leader>d' })
 

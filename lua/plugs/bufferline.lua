@@ -3,9 +3,9 @@
 local function diagnostics_indicator(num, _, diagnostics, _)
   local result = {}
   local symbols = {
-    error = " ",
-    warning = " ",
-    info = ""
+    error = "",
+    warning = "",
+    info = ""
   }
   for name, count in pairs(diagnostics) do
     if symbols[name] and count > 0 then
@@ -28,13 +28,13 @@ local config = {
       middle_mouse_command = nil,          -- can be a string | function, see "Mouse actions"
       indicator = {
           icon = '▎', -- this should be omitted if indicator style is not 'icon'
-          style = 'icon' -- | 'underline' | 'none',
+          style = 'underline' -- 'icon' | 'underline' | 'none',
       },
-      buffer_close_icon = '',
+      buffer_close_icon = '󰖭',
       modified_icon = '●',
-      close_icon = '',
-      left_trunc_marker = '',
-      right_trunc_marker = '',
+      close_icon = '',
+      left_trunc_marker = '',
+      right_trunc_marker = '',
       --- name_formatter can be used to change the buffer's label in the bufferline.
       --- Please note some names can/will break the
       --- bufferline so use this at your discretion knowing that it has
@@ -46,8 +46,8 @@ local config = {
             -- buffers (tabs only) | table(int) | the numbers of the buffers in the tab
             -- tabnr (tabs only)   | int        | the "handle" of the tab, can be converted to its ordinal number using: `vim.api.nvim_tabpage_get_number(buf.tabnr)`
       end,
-      max_name_length = 18,
-      max_prefix_length = 15, -- prefix used when a buffer is de-duplicated
+      max_name_length = 12,
+      max_prefix_length = 9, -- prefix used when a buffer is de-duplicated
       truncate_names = true, -- whether or not tab names should be truncated
       tab_size = 18,
       diagnostics = 'coc',    -- false | "nvim_lsp" | "coc",
@@ -99,15 +99,15 @@ local config = {
       },
       color_icons = true ,-- true | false, -- whether or not to add the filetype icon highlights
       show_buffer_icons = true, -- true | false, -- disable filetype icons for buffers
-      show_buffer_close_icons = true, -- true | false,
-      show_buffer_default_icon = true, -- true | false, -- whether or not an unrecognised filetype should show a default icon
+      -- show_buffer_close_icons = true, -- true | false,
+      -- show_buffer_default_icon = true, -- true | false, -- whether or not an unrecognised filetype should show a default icon
       show_close_icon = false,
       show_tab_indicators = true,
       show_duplicate_prefix = false, -- whether to show duplicate buffer prefix
       persist_buffer_sort = false, -- whether or not custom sorted buffers should persist
       -- can also be a table containing 2 custom separators
       -- [focused and unfocused]. eg: { '|', '|' }
-      separator_style = "thin", -- "slant" | "thick" | "thin" | { 'any', 'any' },
+      separator_style = "thick", -- "slant" | "thick" | "thin" | { 'any', 'any' },
       enforce_regular_tabs = false,
       always_show_bufferline = true,
       hover = {
@@ -122,8 +122,10 @@ local config = {
           return buffer_a.modified > buffer_b.modified
         end
       ]]
-  }
+  },
+  -- highlights = require("catppuccin.groups.integrations.bufferline").get(),
 }
+
 
 local utils = require('user.utils')
 local bufferline = utils.load_plug('bufferline')
@@ -132,6 +134,8 @@ if bufferline == nil then
   return
 end
 
+
+vim.opt.termguicolors = true
 bufferline.setup(config)
 vim.cmd [[ autocmd BufWrite * lua require('bufferline.diagnostics').refresh_coc_diagnostics()]]
 

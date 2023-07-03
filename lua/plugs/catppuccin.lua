@@ -15,9 +15,9 @@ plug.setup({
     show_end_of_buffer = false, -- show the '~' characters after the end of buffers
     term_colors = false,
     dim_inactive = {
-        enabled = false,
+        enabled = true,
         shade = "dark",
-        percentage = 0.15,
+        percentage = 0.5,
     },
     no_italic = false, -- Force no italic
     no_bold = false, -- Force no bold
@@ -38,13 +38,34 @@ plug.setup({
     color_overrides = {},
     custom_highlights = {},
     integrations = {
-        cmp = true,
+        cmp = false,
         gitsigns = true,
+        coc_nvim = true,
         nvimtree = true,
         telescope = true,
         notify = true,
         mini = false,
+
+        which_key = true,
+
+        native_lsp = {
+            enabled = true,
+            virtual_text = {
+                errors = { "italic", "bold" },
+                hints = { "italic" },
+                warnings = { "italic" },
+                information = { "italic" },
+            },
+            underlines = {
+                errors = { "underline" },
+                hints = { "underline" },
+                warnings = { "underline" },
+                information = { "underline" },
+            },
+        },
+
         -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
     },
 })
+
 

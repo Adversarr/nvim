@@ -1,4 +1,5 @@
 {
+  "inlayHint.display": false,
   "clangd.arguments": [
     "-j=8",
     "--header-insertion=never",
@@ -14,13 +15,37 @@
     "${workspaceFolder}",
     "${workspaceFolder}/build"
   ],
-  "clangd.inlayHints.enable": true,
   "inlayHint.parameterSeparator": " ",
-  "suggest.noselect": true,
+  "colors.enable": true,
+  "suggest.virtualText": true,
+  "suggest.pumFloatConfig": {
+    "winblend": 30,
+    "border": true,
+    "rounded": true,
+  },
+  "signature.floatConfig": {
+    "border": true,
+    "rounded": true,
+  },
+
+  "diagnostic.warningSign": "",
+  "hover.floatConfig": {
+    "border": true,
+    "rounded": true,
+  },
+  "diagnostic.floatConfig": {
+    "border": true,
+    "rounded": true,
+    "winblend": 30
+  },
   "coc.preferences.currentFunctionSymbolAutoUpdate": true,
+  "coc.preferences.enableMarkdown": true,
+  "diagnostic.enableMessage": "always",
   "tree.key.toggleSelection": "<cr>",
   "outline.expandLevel": 4,
   "outline.autoPreview": true,
-  "python.venvPath": "/opt/homebrew/anaconda3/envs/qt6;/opt/homebrew/anaconda3"
-
+  "python.venvPath": "/opt/homebrew/anaconda3/envs/qt6;/opt/homebrew/anaconda3",
+  "sumneko-lua.enableNvimLuaDev": true,
+  "Lua.hint.arrayIndex": "Disable",
+  "snippets.textmateSnippetsRoots": []
 }
