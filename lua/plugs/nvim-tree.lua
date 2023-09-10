@@ -111,7 +111,7 @@ end
 -- set termguicolors to enable highlight groups
 vim.opt.termguicolors = true
 local config = {
-                 -- BEGIN_DEFAULT_OPTS
+  -- BEGIN_DEFAULT_OPTS
   auto_reload_on_write = true,
   disable_netrw = false,
   hijack_cursor = false,
@@ -120,14 +120,17 @@ local config = {
   -- ignore_buffer_on_setup = false,
   -- open_on_setup = false,
   -- open_on_setup_file = false,
-  sort_by = "name",
+  sort = {
+    sorter = "name",
+    folders_first = true,
+    files_first = false,
+  },
   root_dirs = {},
   prefer_startup_root = false,
   sync_root_with_cwd = true,
   reload_on_bufenter = true,
   respect_buf_cwd = false,
   on_attach = on_attach,
-  remove_keymaps = false,
   select_prompts = false,
   -- float = {
   --   enable = false,
