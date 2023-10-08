@@ -5,7 +5,6 @@
     "--header-insertion=never",
     "--completion-style=detailed",
     "--ranking-model=heuristics",
-    "--log=error",
     "--enable-config",
     "--background-index",
     "--function-arg-placeholders=0",
@@ -21,17 +20,17 @@
   "suggest.pumFloatConfig": {
     "winblend": 30,
     "border": true,
-    "rounded": true,
+    "rounded": true
   },
   "signature.floatConfig": {
     "border": true,
-    "rounded": true,
+    "rounded": true
   },
 
   "diagnostic.warningSign": "",
   "hover.floatConfig": {
     "border": true,
-    "rounded": true,
+    "rounded": true
   },
   "diagnostic.floatConfig": {
     "border": true,

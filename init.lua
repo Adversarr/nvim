@@ -34,6 +34,7 @@ require "plugs.coc"
 require 'plugs.markdown'
 require 'plugs.glsl'
 require "plugs.vimtex"
+require "plugs.typst"
 
 -- Dev
 require "plugs.neodev"
@@ -41,6 +42,7 @@ require "plugs.neodev"
 -- Debugger.
 require "plugs.dap"
 require "plugs.dapui"
+
 
 -- After load everything, apply keymaps.
 require "user.keymaps"
