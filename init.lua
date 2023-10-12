@@ -11,7 +11,7 @@ require 'plugs.gruvbox'
 require 'plugs.catppuccin'
 
 -- Ui:
-require 'plugs.dashboard'
+-- require 'plugs.dashboard'
 require "plugs.nvim-tree"
 require "plugs.lualine"
 require "plugs.bufferline" -- catppuccin says: bufferline should be loaded after.
@@ -34,7 +34,8 @@ require "plugs.coc"
 require 'plugs.markdown'
 require 'plugs.glsl'
 require "plugs.vimtex"
-require "plugs.typst"
+-- require "plugs.typst"
+require "plugs.lsp"
 
 -- Dev
 require "plugs.neodev"

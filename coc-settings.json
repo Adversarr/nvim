@@ -1,5 +1,13 @@
 {
-  "inlayHint.display": false,
+  "languageserver": {
+    "typst": {
+      "command": "typst-lsp",
+      "filetypes": [
+        "typst"
+      ]
+    }
+  },
+  "inlayHint.display": true,
   "clangd.arguments": [
     "-j=8",
     "--header-insertion=never",
@@ -26,7 +34,6 @@
     "border": true,
     "rounded": true
   },
-
   "diagnostic.warningSign": "",
   "hover.floatConfig": {
     "border": true,

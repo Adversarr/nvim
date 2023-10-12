@@ -154,7 +154,14 @@ return packer.startup(function(use)
   use { 'folke/which-key.nvim' }
   use { 'numToStr/Comment.nvim' }
   -- Dashboard
-  use { 'glepnir/dashboard-nvim' }
+  use {
+    'glepnir/dashboard-nvim',
+    event = 'VimEnter',
+    config = function()
+      require 'plugs/dashboard'
+    end,
+    dependencies = { { 'nvim-tree/nvim-web-devicons' } }
+  }
 
   -- Color schemes:
   use { 'folke/tokyonight.nvim' }
@@ -249,8 +256,15 @@ return packer.startup(function(use)
   }
 
   -- Typst:
+  -- use {
+  --   'kaarmu/typst.vim'
+  -- }
+
+  -- Lsp configs. (to replace coc-nvim?)
   use {
-    '~/Repo/typst.vim',
+    "williamboman/mason.nvim",
+    "williamboman/mason-lspconfig.nvim",
+    "neovim/nvim-lspconfig",
   }
 
 
