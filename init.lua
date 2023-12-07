@@ -19,8 +19,6 @@ require "plugs.gitsigns"
 require "plugs.telescope"
 require "plugs.toggleterm"
 
-
-
 -- Editor:
 require 'plugs.todocomment'
 require "plugs.comment"
@@ -28,24 +26,22 @@ require 'plugs.treesitter'
 require 'plugs.indent_blankline'
 require 'plugs.autopair'
 require 'plugs.neogen'
+require "plugs.trouble"
 
 -- Languages:
-require "plugs.coc"
+-- ndev should be loaded before lsp.
+require 'plugs.luasnip'
 require 'plugs.markdown'
 require 'plugs.glsl'
 require "plugs.vimtex"
--- require "plugs.typst"
+require "plugs.typst"
 require "plugs.lsp"
-
--- Dev
-require "plugs.neodev"
+require 'plugs.cmp'
 
 -- Debugger.
 require "plugs.dap"
 require "plugs.dapui"
-
+require "plugs.symbolsoutline"
 
 -- After load everything, apply keymaps.
 require "user.keymaps"
-
-

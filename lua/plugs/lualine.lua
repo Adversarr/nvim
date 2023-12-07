@@ -4,16 +4,6 @@ if lualine == nil then
   return
 end
 
-
-local function getCurrentFunctionSymbol()
-  local fname = vim.b.coc_current_function
-  return fname
-end
-
-local function get_coc_status()
-  return vim.g.coc_status
-end
-
 local config = {
   options = {
     icons_enabled = true,
@@ -22,7 +12,7 @@ local config = {
     section_separators = { left = '', right = '' },
     disabled_filetypes = {
       statusline = { "NvimTree", "ToggleTerm", "Top", "", 'list', "dashboard" },
-      winbar = { "NvimTree", "ToggleTerm", "Top", "coctree'", "", 'list', "dashboard" },
+      winbar = { "NvimTree", "ToggleTerm", "Top", "", 'list', "dashboard" },
     },
     ignore_focus = {},
     always_divide_middle = true,
@@ -54,8 +44,6 @@ local config = {
         newfile = '[New]',     -- Text to show for newly created file before first write
       }
     },
-      'b:coc_current_function',
-      'g:coc_status',
     },
     lualine_x = { 'encoding', 'filetype' },
     lualine_y = { 'searchcount' },

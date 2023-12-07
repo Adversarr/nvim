@@ -9,6 +9,7 @@ end
 local reg = wk.register
 
 
+
 local function try_close_buffer(kill_command, bufnr, force)
   kill_command = kill_command or "bd"
   -- Reference: https://github.com/LunarVim/LunarVim/lua/lvim/core/bufferline.lua
@@ -77,6 +78,8 @@ local function try_close_buffer(kill_command, bufnr, force)
   end
 end
 
+
+
 -- Normal mode, without prefix:
 reg {
   ["<C-s>"] = {
@@ -128,77 +131,92 @@ reg({
   },
   t = {
     name = "Telescope Actions",
-    O = { "<cmd>Telescope coc workspace_symbols<cr>", "Workspace Symbols" },
-    o = { "<cmd>Telescope coc document_symbols<cr>", "Document Symbols" },
-    r = { "<cmd>Telescope coc references_used<cr>", "Look up References of symbol" },
-    R = { "<cmd>Telescope coc references<cr>", "Look up Calling of symbol" },
-    D = { "<cmd>Telescope coc workspace_diagnostics<cr>", "Telescope Diagnostics" },
-    d = { "<cmd>Telescope coc diagnostics<cr>", "Trouble Workspace Diagnostics" },
     b = { "<cmd>Telescope buffers<cr>", "Switch between buffers" },
-    -- p = { "<cmd>Telescope find_files find_command=rg,--hidden,--files<cr>", "Files" },
     p = { "<cmd>Telescope git_files show_untracked=true<cr>", "Git Files." },
-    -- P = { "<cmd>Telescope commands<cr>", "Commands" },
     P = { "<cmd>Telescope find_files find_command=rg,--hidden,--files<cr>", "Files" },
     t = { "<cmd>Telescope live_grep use_regex=true<cr>", "Find string in ws" },
   },
   l = {
-    name = "Lsp & Coc",
-    a = {
-      name = "Code Action",
-      c = { "<Plug>(coc-codeaction-cursor)", "Action for cursor" },
-      s = { "<Plug>(coc-codeaction-source)", "Action for source" },
-      b = { "<Plug>(coc-codeaction-buffer)", "Action for buffer" },
-      a = { "<Plug>(coc-codelense-action)", "CodeLense action" },
-      q = { "<Plug>(coc-fix-current)", "Quickfix Current" },
-    },
-    c = { "<Plug>(coc-codelens-action)", "CodeLens Action" },
-    q = { "<Plug>(coc-fix-current)", "Quickfix Current" },
-    o = { "<cmd>CocOutline<cr>", "Open coc-outline" },
-    k = { "<Plug>(coc-diagnostic-prev)", "Goto previous diagnostic" },
-    j = { "<Plug>(coc-diagnostic-next)", "Goto next diagnostic" },
-    f = { "<cmd>CocCommand editor.action.formatDocument<cr>", "Format current document" },
-    t = { "<cmd>Telescope coc commands<cr>", "Telescope commands" },
-    d = { "<cmd>Telescope coc diagnostic<cr>", "Document Diagnostics" },
-    D = { "<cmd>Telescope coc workspace_diagnostic<cr>", "Document Diagnostics" },
-    s = { "<cmd>Telescope coc document_symbols<cr>", "Document Symbols" },
-    S = { "<cmd>Telescope coc workspace_symbols<cr>", "Workspace Symbols" },
-    h = { "<cmd>CocCommand clangd.switchSourceHeader<cr>", "Switch Source Header"},
+    name = "Lsp",
+    q = { vim.lsp.buf.code_action, "Code action" },
+    o = { "<cmd>SymbolsOutline<cr>", "Symbols Outline" },
+    t = { "<cmd>Trouble document_diagnostics<cr>", "Document diagnostics" },
+    d = { "<cmd>TodoTrouble<cr>", "Todo lists." },
+    T = { "<cmd>Trouble workspace_diagnostics<cr>", "Workspace diagnostics" },
+    k = { vim.lsp.diagnostic.goto_next, "Goto previous diagnostic" },
+    j = { vim.lsp.diagnostic.goto_prev, "Goto next diagnostic" },
+    D = { "<cmd>Telescope diagnostic<cr>", "Document Diagnostics" },
+    s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
+    S = { "<cmd>Telescope lsp_workspace_symbols<cr>", "Workspace Symbols" },
+    h = { "<cmd>ClangdSwitch<cr>", "Switch Source Header" },
     n = { "<cmd>Neogen<cr>", "Neogen Doc String" },
-    l = {
-      name = "CocList",
-      d = { "<cmd>CocList diagnostics<cr>", "Diagnostics" },
-      e = { "<cmd>CocList extensions<cr>", "Diagnostics" },
-      o = { "<cmd>CocList outline<cr>", "Diagnostics" },
-      s = { "<cmd>CocList -I symbols<cr>", "Diagnostics" },
-      p = { "<cmd>CocListResume<cr>", "Resume" },
-      j = { "<cmd>CocListNext<cr>", "Coc default next" },
-      k = { "<cmd>CocListPrev<cr>", "Coc default prev" },
-
-    },
-    r = {
-      name = "Refactor and rename",
-      r = { "<Plug>(coc-rename)", "Rename symble under cursor" },
-      n = { "<Plug>(coc-rename)", "Rename symble under cursor" },
-      e = { "<Plug>(coc-codeaction-refactor)", "Refactor" }
-    }
   }
 
 }, { prefix = "<leader>" })
-
-reg({
-  name = "Coc Goto...",
-  d = { "<Plug>(coc-definition)", "Definition" },
-  t = { "<Plug>(coc-type-definition)", "Type Definition" },
-  i = { "<Plug>(coc-implementation)", "Implementation" },
-  r = { "<Plug>(coc-references)", "References" },
-}, { prefix = "g" })
 
 
 reg({
   name = 'Dap',
   o = { require("dapui").open, "Open DapUI" },
   c = { require('dapui').close, "Close DapUI" },
-  d = { require('dapui').toggle, "Toggle DapUI"}
+  d = { require('dapui').toggle, "Toggle DapUI" }
 
 }, { prefix = '<leader>d' })
 
+
+-- > and < will holdon in x-mode.
+vim.api.nvim_set_keymap('x', '<', '<gv', { noremap = true })
+vim.api.nvim_set_keymap('x', '>', '>gv', { noremap = true })
+
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+  callback = function(ev)
+    -- Enable completion triggered by <c-x><c-o>
+    vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+
+    -- Buffer local mappings.
+    -- See `:help vim.lsp.*` for documentation on any of the below functions
+    local opts = { buffer = ev.buf }
+    reg({
+      g = {
+        name = "Lsp goto",
+        D = { vim.lsp.buf.declaration, "Goto declaration" },
+        d = { vim.lsp.buf.definition, "Goto definition" },
+        i = { vim.lsp.buf.implementation, "Goto implementation" },
+        t = { vim.lsp.buf.type_definition, "Goto definition." },
+        r = { "<cmd>Trouble lsp_references<cr>", "Goto references" }
+      },
+      K = { vim.lsp.buf.hover, "Hover text." },
+      ['<C-k>'] = { vim.lsp.buf.signature_help, "Signature help" },
+    }, {
+      mode = 'n', buffer = ev.buf
+    }
+    )
+
+    reg({
+      l = {
+        f = { function()
+          vim.lsp.buf.format { async = true }
+        end, "Format code." },
+        r = {
+          name = "Refactor and rename",
+          n = { vim.lsp.buf.rename, "Rename symbol" },
+          e = { vim.lsp.buf.code_action, "Code action Refactoring." }
+        },
+      },
+      w = {
+        a = { vim.lsp.buf.add_workspace_folder, "Add folder as workspace." },
+        r = { vim.lsp.buf.remove_workspace_folder, "Remove workspace folder." },
+        l = { function()
+          print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+        end, "List workspace folders."
+        }
+      }
+    }, {
+      mode = 'n',
+      buffer = ev.buf,
+      prefix = "<leader>"
+    })
+  end,
+})

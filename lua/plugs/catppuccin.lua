@@ -40,7 +40,6 @@ plug.setup({
     integrations = {
         cmp = false,
         gitsigns = true,
-        coc_nvim = true,
         nvimtree = true,
         telescope = true,
         notify = true,

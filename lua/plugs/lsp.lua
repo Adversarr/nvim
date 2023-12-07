@@ -1,4 +1,5 @@
 local utils = require('user.utils')
+require('plugs.neodev')
 local mason = utils.load_plug('mason')
 local masonconfig = utils.load_plug('mason-lspconfig')
 if mason == nil or masonconfig == nil then
@@ -9,7 +10,7 @@ mason.setup {
   -- A list of servers to automatically install if they're not already installed. Example: { "rust_analyzer@nightly", "lua_ls" }
   -- This setting has no relation with the `automatic_installation` setting.
   ---@type string[]
-  ensure_installed = { "typst_lsp" },
+  ensure_installed = { "typst_lsp", 'clangd', },
 
   -- Whether servers that are set up (via lspconfig) should be automatically installed if they're not already installed.
   -- This setting has no relation with the `ensure_installed` setting.
@@ -25,11 +26,21 @@ mason.setup {
   ---@type table<string, fun(server_name: string)>?
   handlers = nil,
 }
+
 masonconfig.setup {}
 
-require'lspconfig'.typst_lsp.setup{
-	settings = {
-		exportPdf = "onSave" -- Choose onType, onSave or never.
-        -- serverPath = "" -- Normally, there is no need to uncomment it.
-	}
+
+local lspconfig = utils.load_plug('lspconfig')
+if lspconfig == nil then
+  return
+end
+
+-- Load required lsp.
+lspconfig.typst_lsp.setup(require("lspc.typst_lsp"))
+lspconfig.clangd.setup(require('lspc.clangd'))
+lspconfig.lua_ls.setup(require('lspc.lua_ls'))
+lspconfig.cmake.setup {
+  root_dir = lspconfig.util.root_pattern('CMakePresets.json', 'CTestConfig.cmake', '.git', 'build', 'cmake',
+    "CMakeLists.txt")
 }
+lspconfig.pyright.setup{}

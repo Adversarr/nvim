@@ -1,4 +1,3 @@
-- [ ] coc
 - [ ] todocomment
 - [ ] toggleterm
 - [ ] treesitter

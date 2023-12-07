@@ -17,7 +17,7 @@ local custom_header = {
 
 local custom_center = {
   {
-    icon = ' ',
+    icon = '󰚸 ',
     desc = 'Recently opened files',
     action = 'Telescope oldfiles only_cwd=true',
     shortcut = 'r'

@@ -174,7 +174,6 @@ return packer.startup(function(use)
     'nvim-telescope/telescope-fzf-native.nvim',
     run = 'make'
   }
-  use { 'fannheyward/telescope-coc.nvim' }
 
 
   -- File explorer:
@@ -195,12 +194,7 @@ return packer.startup(function(use)
     requires = 'nvim-tree/nvim-web-devicons'
   }
 
-  -- Lsp: will call setup in init.lua,
   -- use 'RRethy/vim-illuminate'
-  use {
-    'neoclide/coc.nvim',
-    branch = "release"
-  }
 
   -- Treesitter:
   use {
@@ -210,7 +204,6 @@ return packer.startup(function(use)
   -- neodev
   use {
     'folke/neodev.nvim',
-    ft = { 'lua' }
   }
 
   use {
@@ -256,18 +249,38 @@ return packer.startup(function(use)
   }
 
   -- Typst:
-  -- use {
-  --   'kaarmu/typst.vim'
-  -- }
+  use {
+    '~/Repo/typst.vim'
+  }
 
-  -- Lsp configs. (to replace coc-nvim?)
+  -- Lsp configs.
   use {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
     "neovim/nvim-lspconfig",
   }
 
-
+  use {
+    'hrsh7th/nvim-cmp',
+    'hrsh7th/cmp-nvim-lsp',
+    'hrsh7th/cmp-buffer',
+    'hrsh7th/cmp-path',
+    'hrsh7th/cmp-cmdline',
+  }
+  use({
+    "L3MON4D3/LuaSnip",
+    -- follow latest release.
+    tag = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+    -- install jsregexp (optional!:).
+    run = "make install_jsregexp"
+  })
+  use { 'saadparwaiz1/cmp_luasnip' }
+  use 'simrat39/symbols-outline.nvim'
+  use 'github/copilot.vim'
+  use {
+    "folke/trouble.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+  }
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

@@ -50,7 +50,7 @@ local config = {
       max_prefix_length = 9, -- prefix used when a buffer is de-duplicated
       truncate_names = true, -- whether or not tab names should be truncated
       tab_size = 18,
-      diagnostics = 'coc',    -- false | "nvim_lsp" | "coc",
+      diagnostics = 'nvim_lsp',    -- false | "nvim_lsp" | "coc",
       diagnostics_update_in_insert = false,
       -- The diagnostics indicator can be set to nil to keep the buffer name highlight but delete the highlighting
       diagnostics_indicator = diagnostics_indicator,
@@ -137,6 +137,6 @@ end
 
 vim.opt.termguicolors = true
 bufferline.setup(config)
-vim.cmd [[ autocmd BufWrite * lua require('bufferline.diagnostics').refresh_coc_diagnostics()]]
+-- vim.cmd [[ autocmd BufWrite * lua require('bufferline.diagnostics').refresh_coc_diagnostics()]]
 
 
