@@ -250,7 +250,7 @@ return packer.startup(function(use)
 
   -- Typst:
   use {
-    '~/Repo/typst.vim'
+    'kaarmu/typst.vim'
   }
 
   -- Lsp configs.

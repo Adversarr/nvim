@@ -43,4 +43,4 @@ lspconfig.cmake.setup {
   root_dir = lspconfig.util.root_pattern('CMakePresets.json', 'CTestConfig.cmake', '.git', 'build', 'cmake',
     "CMakeLists.txt")
 }
-lspconfig.pyright.setup{}
+lspconfig.pyright.setup(require('lspc.pyright'))
