@@ -5,7 +5,7 @@ if treesitter== nil then
 end
 treesitter.setup {
   -- A list of parser names, or "all" (the four listed parsers should always be installed)
-  ensure_installed = { "c", "lua", "vim", "help", "cpp"},
+  ensure_installed = { "c", "lua", "vim", "vimdoc", "cpp", "python"},
 
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,
