@@ -17,6 +17,7 @@ require "plugs.lualine"
 require "plugs.bufferline" -- catppuccin says: bufferline should be loaded after.
 require "plugs.gitsigns"
 require "plugs.telescope"
+require 'plugs.cmaketools'
 require "plugs.toggleterm"
 
 -- Editor:
@@ -27,6 +28,7 @@ require 'plugs.indent_blankline'
 require 'plugs.autopair'
 require 'plugs.neogen'
 require "plugs.trouble"
+require "plugs.copilot"
 
 -- Languages:
 -- ndev should be loaded before lsp.

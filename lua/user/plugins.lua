@@ -259,6 +259,7 @@ return packer.startup(function(use)
     "williamboman/mason-lspconfig.nvim",
     "neovim/nvim-lspconfig",
   }
+  use { 'Civitasv/cmake-tools.nvim' }
 
   use {
     'hrsh7th/nvim-cmp',
