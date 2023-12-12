@@ -188,7 +188,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
         r = { "<cmd>Trouble lsp_references<cr>", "Goto references" }
       },
       K = { vim.lsp.buf.hover, "Hover text." },
-      ['<C-k>'] = { vim.lsp.buf.signature_help, "Signature help" },
     }, {
       mode = 'n', buffer = ev.buf
     }
