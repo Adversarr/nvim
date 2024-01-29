@@ -8,3 +8,6 @@ vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
   command='set ft=typst',
   desc = "Setup formatexpr specified filetype(s)."
 })
+
+vim.g.typst_conceal=1
+vim.g.typst_conceal_math=1
