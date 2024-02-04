@@ -14,7 +14,7 @@ local config = {
   palette_overrides = {},
   overrides = {},
   dim_inactive = false,
-  transparent_mode = false,
+  transparent_mode = true,
 }
 
 local plug = utils.load_plug('gruvbox')

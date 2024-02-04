@@ -17,6 +17,7 @@ todo_cmt.setup {
       alt = { "FIXME", "BUG", "FIXIT", "ISSUE" }, -- a set of other keywords that all map to this FIX keywords
       -- signs = false, -- configure signs for some keywords individually
     },
+    SECTION = { icon = " ", color = "default" },
     TODO = { icon = " ", color = "info" },
     HACK = { icon = " ", color = "warning" },
     WARN = { icon = "", color = "warning", alt = { "WARNING", "XXX" } },
@@ -37,7 +38,7 @@ todo_cmt.setup {
     multiline = true, -- enable multine todo comments
     multiline_pattern = "^.", -- lua pattern to match the next multiline from the start of the matched keyword
     multiline_context = 10, -- extra lines that will be re-evaluated when changing a line
-    before = "", -- "fg" or "bg" or empty
+    before = "fg", -- "fg" or "bg" or empty
     keyword = "wide", -- "fg", "bg", "wide", "wide_bg", "wide_fg" or empty. (wide and wide_bg is the same as bg, but will also highlight surrounding characters, wide_fg acts accordingly but with fg)
     after = "fg", -- "fg" or "bg" or empty
     pattern = [[.*<(KEYWORDS)\s*:]], -- pattern or table of patterns, used for highlightng (vim regex)

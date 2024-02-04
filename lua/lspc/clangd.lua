@@ -8,7 +8,8 @@ return {
     "--enable-config",
     "--background-index",
     "--function-arg-placeholders=0",
-    "--clang-tidy"
+    "--clang-tidy",
+    "--offset-encoding=utf-8",
   },
   init_options = {
     clangdFileStatus = true,
