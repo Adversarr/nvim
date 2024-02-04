@@ -2,8 +2,6 @@ local ls = require('user.utils').load_plug('luasnip')
 if ls == nil then
   return
 end
-ls.setup {}
-
 require("luasnip.loaders.from_vscode").lazy_load()
 local s = ls.snippet
 local sn = ls.snippet_node
@@ -32,20 +30,71 @@ local parse = require("luasnip.util.parser").parse_snippet
 local ms = ls.multi_snippet
 local k = require("luasnip.nodes.key_indexer").new_key
 
+ls.setup {
+  keep_roots = true,
+  link_roots = true,
+  link_children = true,
+
+  -- Update more often, :h events for more info.
+  update_events = "TextChanged,TextChangedI",
+  -- Snippets aren't automatically removed if their text is deleted.
+  -- `delete_check_events` determines on which events (:h events) a check for
+  -- deleted snippets is performed.
+  -- This can be especially useful when `history` is enabled.
+  delete_check_events = "TextChanged",
+  ext_opts = {
+    [types.choiceNode] = {
+      active = {
+        virt_text = { { "choiceNode", "Comment" } },
+      },
+    },
+  },
+  -- treesitter-hl has 100, use something higher (default is 200).
+  ext_base_prio = 300,
+  -- minimal increase in priority.
+  ext_prio_increase = 1,
+  enable_autosnippets = true,
+  -- mapping for cutting selected text so it's usable as SELECT_DEDENT,
+  -- SELECT_RAW or TM_SELECTED_TEXT (mapped via xmap).
+  store_selection_keys = "<Tab>",
+  -- luasnip uses this function to get the currently active filetype. This
+  -- is the (rather uninteresting) default, but it's possible to use
+  -- eg. treesitter for getting the current filetype by setting ft_func to
+  -- require("luasnip.extras.filetype_functions").from_cursor (requires
+  -- `nvim-treesitter/nvim-treesitter`). This allows correctly resolving
+  -- the current filetype in eg. a markdown-code block or `vim.cmd()`.
+  ft_func = function()
+    return vim.split(vim.bo.filetype, ".", true)
+  end,
+}
+
+
 ls.add_snippets("cpp", { s("iwyu", {
   t({ "// IWYU pragma: export" })
 }) })
 
-ls.add_snippets("cpp", { s("sect", {
-  t({ "/****************************** "}),
-  i(1, "Section"),
-  t({ " ******************************/"})
-})})
-
-ls.add_snippets("cpp", { s("block", {
-  t({ "/****************************** "}),
-  i(1," * Section"),
-  t({ " ******************************/"})
-})})
-
-
+ls.add_snippets("cpp", {
+  s("sect", {
+    t({ "/************************* SECT: " }),
+    i(1, "Section"),
+    t({ " *************************/" })
+  }),
+  s("secl", {
+    t({ "/*************************", " * SECT: " }),
+    i(1, "Section"),
+    t({ "", " *************************/" }),
+    i(0)
+  }),
+  s("secs", {
+    t({ "/* SECT: " }),
+    i(1, "Section"),
+    t({ " */" }),
+    i(0)
+  }),
+  s("seci", {
+    t({ "// SECT: " }),
+    i(1, "Section"),
+    t({ "" }),
+    i(0)
+  })
+})
