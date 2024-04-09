@@ -17,7 +17,8 @@ require "plugs.lualine"
 require "plugs.bufferline" -- catppuccin says: bufferline should be loaded after.
 require "plugs.gitsigns"
 require "plugs.telescope"
-require 'plugs.cmaketools'
+-- Lazy load
+-- require 'plugs.cmaketools'
 require "plugs.toggleterm"
 
 -- Editor:

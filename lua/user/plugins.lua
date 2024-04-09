@@ -213,13 +213,15 @@ return packer.startup(function(use)
 
   -- Dap:
   use { "mfussenegger/nvim-dap" }
-  use { "rcarriga/nvim-dap-ui", requires = "mfussenegger/nvim-dap" }
+  use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } }
 
   -- Toggle Term:
   use 'akinsho/toggleterm.nvim'
 
   -- glsl:
-  use 'tikhomirov/vim-glsl'
+  use {
+    'tikhomirov/vim-glsl',
+  }
   -- Markdown:
   use {
     'preservim/vim-markdown',
@@ -259,7 +261,14 @@ return packer.startup(function(use)
     "williamboman/mason-lspconfig.nvim",
     "neovim/nvim-lspconfig",
   }
-  use { 'Civitasv/cmake-tools.nvim' }
+  use {
+    'Civitasv/cmake-tools.nvim',
+    ft = { 'cmake' },
+    config = function()
+      require "plugs.cmaketools"
+    end,
+    opt = true
+  }
 
   use {
     'hrsh7th/nvim-cmp',
@@ -277,7 +286,9 @@ return packer.startup(function(use)
   })
   use { 'saadparwaiz1/cmp_luasnip' }
   use 'simrat39/symbols-outline.nvim'
-  use 'github/copilot.vim'
+  use {
+    'github/copilot.vim'
+  }
   use {
     "folke/trouble.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },

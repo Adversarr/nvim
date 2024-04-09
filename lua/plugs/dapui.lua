@@ -1,5 +1,8 @@
 local utils = require("user.utils")
 local dapui = utils.load_plug('dapui')
+if dapui == nil then
+  return
+end
 
 local config = {
   controls = {

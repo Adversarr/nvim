@@ -11,6 +11,7 @@ return {
     "--clang-tidy",
     "--offset-encoding=utf-8",
   },
+  capabilities = {offsetEncoding = {'utf-8'}},
   init_options = {
     clangdFileStatus = true,
     clangdSemanticHighlighting = true

@@ -155,13 +155,14 @@ reg({
 }, { prefix = "<leader>" })
 
 
-reg({
-  name = 'Dap',
-  o = { require("dapui").open, "Open DapUI" },
-  c = { require('dapui').close, "Close DapUI" },
-  d = { require('dapui').toggle, "Toggle DapUI" }
-
-}, { prefix = '<leader>d' })
+-- TODO: Dapui does not exists any more?
+-- reg({
+--   name = 'Dap',
+--   o = { require("dapui").open, "Open DapUI" },
+--   c = { require('dapui').close, "Close DapUI" },
+--   d = { require('dapui').toggle, "Toggle DapUI" }
+--
+-- }, { prefix = '<leader>d' })
 
 
 -- > and < will holdon in x-mode.
