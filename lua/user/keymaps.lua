@@ -204,6 +204,13 @@ vim.api.nvim_create_autocmd('LspAttach', {
           n = { vim.lsp.buf.rename, "Rename symbol" },
           e = { vim.lsp.buf.code_action, "Code action Refactoring." }
         },
+        l = {
+          name = "Lsp list",
+          O = { vim.lsp.buf.outgoing_calls, "Outgoing calls" },
+          I = { vim.lsp.buf.incoming_calls, "Incoming calls" },
+          i = { vim.lsp.buf.implementation, "Goto implementation" },
+          r = { vim.lsp.buf.references, "References" }
+        }
       },
       w = {
         a = { vim.lsp.buf.add_workspace_folder, "Add folder as workspace." },

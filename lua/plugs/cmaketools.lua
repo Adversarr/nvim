@@ -1,8 +1,7 @@
 local utils = require("user.utils")
 local cmaketool = utils.load_plug('cmake-tools')
 if cmaketool == nil then
-  return
-end
+  return end
 
 cmaketool.setup {
   cmake_command = "cmake",         -- this is used to specify cmake command path

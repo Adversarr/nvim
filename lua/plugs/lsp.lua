@@ -35,6 +35,8 @@ if lspconfig == nil then
   return
 end
 
+
+
 -- Load required lsp.
 lspconfig.typst_lsp.setup(require("lspc.typst_lsp"))
 lspconfig.clangd.setup(require('lspc.clangd'))
