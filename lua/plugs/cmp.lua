@@ -24,7 +24,7 @@ cmp.setup {
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.abort(),
-    ['<CR>'] = cmp.mapping.confirm({ select = true }),   -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
   }),
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
@@ -39,7 +39,7 @@ cmp.setup {
 
 cmp.setup.filetype('gitcommit', {
   sources = cmp.config.sources({
-    { name = 'git' },   -- You can specify the `git` source if [you were installed it](https://github.com/petertriho/cmp-git).
+    { name = 'git' }, -- You can specify the `git` source if [you were installed it](https://github.com/petertriho/cmp-git).
   }, {
     { name = 'buffer' },
   })
@@ -62,3 +62,10 @@ cmp.setup.cmdline(':', {
     { name = 'cmdline' }
   })
 })
+
+-- Set up lspconfig.
+-- local capabilities = require('cmp_nvim_lsp').default_capabilities()
+-- -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
+-- require('lspconfig')['<YOUR_LSP_SERVER>'].setup {
+--   capabilities = capabilities
+-- }

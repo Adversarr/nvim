@@ -190,7 +190,7 @@ return packer.startup(function(use)
   use {
     'akinsho/bufferline.nvim',
     -- after = 'catppuccin',
-    tag = "v4.1.0",
+    tag = "v4.6.1",
     requires = 'nvim-tree/nvim-web-devicons'
   }
 

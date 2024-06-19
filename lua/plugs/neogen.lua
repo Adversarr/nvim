@@ -6,7 +6,7 @@ end
 
 neogen.setup {
   languages = {
-    ['cpp.doxygen'] = require('neogen.configurations.cpp')
+    ['cpp.doxygen'] = require('neogen.configurations.cpp'),
   }
 }
 

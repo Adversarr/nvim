@@ -14,3 +14,5 @@ vim.g.copilot_filetypes = {
   latex=true,
   lua=true
 }
+
+

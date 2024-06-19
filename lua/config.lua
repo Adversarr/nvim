@@ -1,4 +1,4 @@
-COLORSCHEME = 'catppuccin'
+COLORSCHEME = 'gruvbox'
 ENABLE_FZF = true
 
 vim.g.load_doxygen_syntax=1
