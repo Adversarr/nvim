@@ -93,11 +93,19 @@ reg {
   ["<C-L>"] = { "<c-w>l", "Jump to window right" },
   ["<M-k>"] = { "<cmd>move .-2<cr>==", "Move current line -2" },
   ["<M-j>"] = { "<cmd>move .+1<cr>==", "Move current line +1" },
+  ["<M-1>"] = { "<cmd>ToggleTerm<cr>", "Toggle Term default." },
+  ["<M-2>"] = { "<cmd>ToggleTerm direction=vertical<cr>", "Toggle Term vertical." },
   ["<M-3>"] = { "<cmd>ToggleTerm direction=float<cr>", "Toggle Term float." },
   ["<M-q>"] = { "<cmd>q<cr>", "Quit the window" },
   ["<M-c>"] = { try_close_buffer, "Quit the window" },
   ["<M-h>"] = { "<cmd>BufferLineCyclePrev<cr>", "Prev buffer" },
   ["<M-l>"] = { "<cmd>BufferLineCycleNext<cr>", "Next buffer" },
+
+  -- Increase/Decrease the window size.
+  ["<C-Up>"] = { "<cmd>resize +2<cr>", "Increase window height" },
+  ["<C-Down>"] = { "<cmd>resize -2<cr>", "Decrease window height" },
+  ["<C-Left>"] = { "<cmd>vertical resize +2<cr>", "Increase window width" },
+  ["<C-Right>"] = { "<cmd>vertical resize -2<cr>", "Decrease window width" },
 }
 
 -- For Terminal:
@@ -149,8 +157,26 @@ reg({
     S = { "<cmd>Telescope lsp_workspace_symbols<cr>", "Workspace Symbols" },
     h = { "<cmd>ClangdSwitch<cr>", "Switch Source Header" },
     n = { "<cmd>Neogen<cr>", "Neogen Doc String" },
+  },
+  g = {
+    name = "Git",
+    b = { "<cmd>Telescope git_branches<cr>", "Git Branches" },
+    s = { "<cmd>Telescope git_status<cr>", "Git Status" },
+    c = { "<cmd>Telescope git_commits<cr>", "Git Commits" },
+    r = { "<cmd>Telescope git_bcommits<cr>", "Git Commits" },
+    p = { "<cmd>Telescope git_stash<cr>", "Git Stash" },
+    f = { "<cmd>Telescope git_files<cr>", "Git Files" },
+    g = {
+      name = "gitsigns",
+      s = { "<cmd>Gitsigns toggle_signs<cr>", "Toggle signs" },
+      l = { "<cmd>Gitsigns toggle_linehl<cr>", "Toggle line highlight" },
+      n = { "<cmd>Gitsigns toggle_numhl<cr>", "Toggle number highlight" },
+      w = { "<cmd>Gitsigns toggle_word_diff<cr>", "Toggle word diff" },
+      b = { "<cmd>Gitsigns toggle_current_line_blame<cr>", "Toggle current line blame" },
+      D = { "<cmd>Gitsigns diffthis<cr>", "Diff this" },
+      d = { "<cmd>Gitsigns toggle_deleted<cr>", "Toggle deleted" },
+    }
   }
-
 }, { prefix = "<leader>" })
 
 

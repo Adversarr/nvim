@@ -37,24 +37,24 @@ return {
       autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
       autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
     --]]
-    vim.api.nvim_create_autocmd('CursorHold', {
-      pattern = "<buffer>",
-      callback = function()
-        vim.lsp.buf.document_highlight()
-      end
-    })
-    vim.api.nvim_create_autocmd('CursorHoldI', {
-      pattern = "<buffer>",
-      callback = function()
-        vim.lsp.buf.document_highlight()
-      end
-    })
-    vim.api.nvim_create_autocmd('CursorMoved', {
-      pattern = "<buffer>",
-      callback = function()
-        vim.lsp.buf.clear_references()
-      end
-    })
+    -- vim.api.nvim_create_autocmd('CursorHold', {
+    --   pattern = "<buffer>",
+    --   callback = function()
+    --     vim.lsp.buf.document_highlight()
+    --   end
+    -- })
+    -- vim.api.nvim_create_autocmd('CursorHoldI', {
+    --   pattern = "<buffer>",
+    --   callback = function()
+    --     vim.lsp.buf.document_highlight()
+    --   end
+    -- })
+    -- vim.api.nvim_create_autocmd('CursorMoved', {
+    --   pattern = "<buffer>",
+    --   callback = function()
+    --     vim.lsp.buf.clear_references()
+    --   end
+    -- })
   end
 
 }
