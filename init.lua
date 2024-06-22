@@ -34,7 +34,7 @@ require "plugs.copilot"
 -- Languages:
 -- ndev should be loaded before lsp.
 require 'plugs.luasnip'
-require 'plugs.markdown'
+require 'plugs.mkdp'
 require 'plugs.glsl'
 require "plugs.vimtex"
 require "plugs.typst"

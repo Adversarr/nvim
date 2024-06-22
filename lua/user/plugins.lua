@@ -1,302 +1,338 @@
-local packer_sync_when_startup = false
---[[
-    'myusername/example',        -- The plugin location string
-    use {
-    -- The following keys are all optional
-    disable = boolean,           -- Mark a plugin as inactive
-    as = string,                 -- Specifies an alias under which to install the plugin
-    installer = function,        -- Specifies custom installer. See "custom installers" below.
-    updater = function,          -- Specifies custom updater. See "custom installers" below.
-    after = string or list,      -- Specifies plugins to load before this plugin. See "sequencing" below
-    rtp = string,                -- Specifies a subdirectory of the plugin to add to runtimepath.
-    opt = boolean,               -- Manually marks a plugin as optional.
-    bufread = boolean,           -- Manually specifying if a plugin needs BufRead after being loaded
-    branch = string,             -- Specifies a git branch to use
-    tag = string,                -- Specifies a git tag to use. Supports '*' for "latest tag"
-    commit = string,             -- Specifies a git commit to use
-    lock = boolean,              -- Skip updating this plugin in updates/syncs. Still cleans.
-    run = string, function, or table, -- Post-update/install hook. See "update/install hooks".
-    requires = string or list,   -- Specifies plugin dependencies. See "dependencies".
-    rocks = string or list,      -- Specifies Luarocks dependencies for the plugin
-    config = string or function, -- Specifies code to run after this plugin is loaded.
-    -- The setup key implies opt = true
-    setup = string or function,  -- Specifies code to run before this plugin is loaded. The code is ran even if
-                                 -- the plugin is waiting for other conditions (ft, cond...) to be met.
-    -- The following keys all imply lazy-loading and imply opt = true
-    cmd = string or list,        -- Specifies commands which load this plugin. Can be an autocmd pattern.
-    ft = string or list,         -- Specifies filetypes which load this plugin.
-    keys = string or list,       -- Specifies maps which load this plugin. See "Keybindings".
-    event = string or list,      -- Specifies autocommand events which load this plugin.
-    fn = string or list          -- Specifies functions which load this plugin.
-    cond = string, function, or list of strings/functions,   -- Specifies a conditional test to load this plugin
-    module = string or list      -- Specifies Lua module names for require. When requiring a string which starts
-                                 -- with one of these module names, the plugin will be loaded.
-    module_pattern = string/list -- Specifies Lua pattern of Lua module names for require. When
-                                 -- requiring a string which matches one of these patterns, the plugin will be loaded.
-  }
-]]
--- Bootstrap Packer.
-local ensure_packer = function()
-  local fn = vim.fn
-  local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
-  if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
-    vim.cmd [[packadd packer.nvim]]
-    return true
+local ensure_lazy = function()
+  local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+  if not (vim.uv or vim.loop).fs_stat(lazypath) then
+    vim.fn.system({
+      "git",
+      "clone",
+      "--filter=blob:none",
+      "https://github.com/folke/lazy.nvim.git",
+      "--branch=stable", -- latest stable release
+      lazypath,
+    })
   end
-  return false
+  vim.opt.rtp:prepend(lazypath)
+  return require("lazy")
 end
 
-local packer_bootstrap = ensure_packer()
-
--- TODO: When plugins.lua changes, run packer compile.
--- vim.cmd([[
---   augroup packer_user_config
---     autocmd!
---     autocmd BufWritePost plugins.lua source <afile> | PackerCompile
---   augroup end
--- ]])
-local utils = require('user.utils')
-local packer = utils.load_plug('packer')
-if packer == nil then
-  return
-end
-
--- Initialize Packer:
-packer.init({
-  ensure_dependencies = true, -- Should packer install plugin dependencies?
-  -- snapshot = nil, -- Name of the snapshot you would like to load at startup
-  -- snapshot_path = util.join_paths(vim.fn.stdpath('cache'), 'packer.nvim'), -- Default save directory for snapshots
-  -- package_root   = util.join_paths(vim.fn.stdpath('data'), 'site', 'pack'),
-  -- compile_path = util.join_paths(vim.fn.stdpath('config'), 'plugin', 'packer_compiled.lua'),
-  plugin_package = 'packer',   -- The default package for plugins
-  max_jobs = nil,              -- Limit the number of simultaneous jobs. nil means no limit
-  auto_clean = true,           -- During sync(), remove unused plugins
-  compile_on_sync = true,      -- During sync(), run packer.compile()
-  disable_commands = false,    -- Disable creating commands
-  opt_default = false,         -- Default to using opt (as opposed to start) plugins
-  transitive_opt = true,       -- Make dependencies of opt plugins also opt by default
-  transitive_disable = true,   -- Automatically disable dependencies of disabled plugins
-  auto_reload_compiled = true, -- Automatically reload the compiled file after creating it.
-  preview_updates = false,     -- If true, always preview updates before choosing which plugins to update, same as `PackerUpdate --preview`.
+local lazy = ensure_lazy()
+local opts = {
+  root = vim.fn.stdpath("data") .. "/lazy", -- directory where plugins will be installed
+  defaults = {
+    lazy = false,                           -- should plugins be lazy-loaded?
+    version = nil,
+    -- default `cond` you can use to globally disable a lot of plugins
+    -- when running inside vscode for example
+    cond = nil, ---@type boolean|fun(self:LazyPlugin):boolean|nil
+    -- version = "*", -- enable this to try installing the latest stable versions of plugins
+  },
+  -- leave nil when passing the spec as the first argument to setup()
+  spec = nil, ---@type LazySpec
+  local_spec = true,                                        -- load project specific .lazy.lua spec files. They will be added at the end of the spec.
+  lockfile = vim.fn.stdpath("config") .. "/lazy-lock.json", -- lockfile generated after running update.
+  ---@type number? limit the maximum amount of concurrent tasks
+  concurrency = jit.os:find("Windows") and (vim.uv.available_parallelism() * 2) or nil,
   git = {
-    cmd = 'git',               -- The base command for git operations
-    subcommands = {
-      -- Format strings for git subcommands
-      update = 'pull --ff-only --progress --rebase=false',
-      install = 'clone --depth %i --no-single-branch --progress',
-      fetch = 'fetch --depth 999999 --progress',
-      checkout = 'checkout %s --',
-      update_branch = 'merge --ff-only @{u}',
-      current_branch = 'branch --show-current',
-      diff = 'log --color=never --pretty=format:FMT --no-show-signature HEAD@{1}...HEAD',
-      diff_fmt = '%%h %%s (%%cr)',
-      get_rev = 'rev-parse --short HEAD',
-      get_msg = 'log --color=never --pretty=format:FMT --no-show-signature HEAD -n 1',
-      submodules = 'submodule update --init --recursive --progress'
+    -- defaults for the `Lazy log` command
+    -- log = { "--since=3 days ago" }, -- show commits from the last 3 days
+    log = { "-8" }, -- show the last 8 commits
+    timeout = 120,  -- kill processes that take more than 2 minutes
+    url_format = "https://github.com/%s.git",
+    -- lazy.nvim requires git >=2.19.0. If you really want to use lazy with an older version,
+    -- then set the below to false. This should work, but is NOT supported and will
+    -- increase downloads a lot.
+    filter = true,
+  },
+  dev = {
+    ---@type string | fun(plugin: LazyPlugin): string directory where you store your local plugin projects
+    path = "~/projects",
+    ---@type string[] plugins that match these patterns will use your local versions instead of being fetched from GitHub
+    patterns = {},    -- For example {"folke"}
+    fallback = false, -- Fallback to git when local plugin doesn't exist
+  },
+  install = {
+    -- install missing plugins on startup. This doesn't increase startup time.
+    missing = true,
+    -- try to load one of these colorschemes when starting an installation during startup
+    colorscheme = { "habamax" },
+  },
+  ui = {
+    -- a number <1 is a percentage., >1 is a fixed size
+    size = { width = 0.8, height = 0.8 },
+    wrap = true, -- wrap the lines in the ui
+    -- The border to use for the UI window. Accepts same border values as |nvim_open_win()|.
+    border = "none",
+    -- The backdrop opacity. 0 is fully opaque, 100 is fully transparent.
+    backdrop = 60,
+    title = nil, ---@type string only works when border is not "none"
+    title_pos = "center", ---@type "center" | "left" | "right"
+    -- Show pills on top of the Lazy window
+    pills = true, ---@type boolean
+    icons = {
+      cmd = " ",
+      config = "",
+      event = " ",
+      ft = " ",
+      init = " ",
+      import = " ",
+      keys = " ",
+      lazy = "󰒲 ",
+      loaded = "●",
+      not_loaded = "○",
+      plugin = " ",
+      runtime = " ",
+      require = "󰢱 ",
+      source = " ",
+      start = " ",
+      task = "✔ ",
+      list = {
+        "●",
+        "➜",
+        "★",
+        "‒",
+      },
     },
-    depth = 1,                                   -- Git clone depth
-    clone_timeout = 60,                          -- Timeout, in seconds, for git clones
-    default_url_format = 'https://github.com/%s' -- Lua format string used for "aaa/bbb" style plugins
-  },
-  display = {
-    non_interactive = false, -- If true, disable display windows for all operations
-    compact = false, -- If true, fold updates results by default
-    open_fn = nil, -- An optional function to open a window for packer's display
-    open_cmd = '65vnew \\[packer\\]', -- An optional command to open a window for packer's display
-    working_sym = '⟳', -- The symbol for a plugin being installed/updated
-    error_sym = '✗', -- The symbol for a plugin with an error in installation/updating
-    done_sym = '✓', -- The symbol for a plugin which has completed installation/updating
-    removed_sym = '-', -- The symbol for an unused plugin which was removed
-    moved_sym = '→', -- The symbol for a plugin which was moved (e.g. from opt to start)
-    header_sym = '━', -- The symbol for the header line in packer's display
-    show_all_info = true, -- Should packer show all update details automatically?
-    prompt_border = 'double', -- Border style of prompt popups.
-    keybindings = {
-      -- Keybindings for the display window
-      quit = 'q',
-      toggle_update = 'u', -- only in preview
-      continue = 'c',      -- only in preview
-      toggle_info = '<CR>',
-      diff = 'd',
-      prompt_revert = 'r'
-    }
-  },
-  luarocks = {
-    python_cmd = 'python' -- Set the python command to use for running hererocks
-  },
-  log = {
-    level = 'warn'
-  }, -- The default print log level. One of: "trace", "debug", "info", "warn", "error", "fatal".
-  profile = {
-    enable = false,
-    threshold = 1    -- integer in milliseconds, plugins which load faster than this won't be shown in profile output
-  },
-  autoremove = false -- Remove disabled or unused plugins without prompting the user
-})
+    -- leave nil, to automatically select a browser depending on your OS.
+    -- If you want to use a specific browser, you can define it here
+    browser = nil, ---@type string?
+    throttle = 20, -- how frequently should the ui process render events
+    custom_keys = {
+      -- You can define custom key maps here. If present, the description will
+      -- be shown in the help menu.
+      -- To disable one of the defaults, set it to false.
 
-return packer.startup(function(use)
-  use { 'wbthomason/packer.nvim' }
-  -- TODO: Add other plugins...
-  -- Internal utilities.
-  use { "Tastyep/structlog.nvim" }
-  use { 'nvim-lua/plenary.nvim' }
-  use { 'kyazdani42/nvim-web-devicons' }
-  use {
-    'rcarriga/nvim-notify'
-  }
-  use {
-    'b0o/schemastore.nvim',
-    ft = { 'json' }
-  }
+      ["<localleader>l"] = {
+        function(plugin)
+          require("lazy.util").float_term({ "lazygit", "log" }, {
+            cwd = plugin.dir,
+          })
+        end,
+        desc = "Open lazygit log",
+      },
 
-  -- General utilities:
-  use { 'folke/which-key.nvim' }
-  use { 'numToStr/Comment.nvim' }
-  -- Dashboard
-  use {
-    'glepnir/dashboard-nvim',
+      ["<localleader>t"] = {
+        function(plugin)
+          require("lazy.util").float_term(nil, {
+            cwd = plugin.dir,
+          })
+        end,
+        desc = "Open terminal in plugin dir",
+      },
+    },
+  },
+  diff = {
+    -- diff command <d> can be one of:
+    -- * browser: opens the github compare view. Note that this is always mapped to <K> as well,
+    --   so you can have a different command for diff <d>
+    -- * git: will run git diff and open a buffer with filetype git
+    -- * terminal_git: will open a pseudo terminal with git diff
+    -- * diffview.nvim: will open Diffview to show the diff
+    cmd = "git",
+  },
+  checker = {
+    -- automatically check for plugin updates
+    enabled = false,
+    concurrency = nil, ---@type number? set to 1 to check for updates very slowly
+    notify = true,        -- get a notification when new updates are found
+    frequency = 3600,     -- check for updates every hour
+    check_pinned = false, -- check for pinned packages that can't be updated
+  },
+  change_detection = {
+    -- automatically check for config file changes and reload the ui
+    enabled = true,
+    notify = true, -- get a notification when changes are found
+  },
+  performance = {
+    cache = {
+      enabled = true,
+    },
+    reset_packpath = true, -- reset the package path to improve startup time
+    rtp = {
+      reset = true,        -- reset the runtime path to $VIMRUNTIME and your config directory
+      ---@type string[]
+      paths = {},          -- add any custom paths here that you want to includes in the rtp
+      ---@type string[] list any plugins you want to disable here
+      disabled_plugins = {
+        -- "gzip",
+        -- "matchit",
+        -- "matchparen",
+        -- "netrwPlugin",
+        -- "tarPlugin",
+        -- "tohtml",
+        -- "tutor",
+        -- "zipPlugin",
+      },
+    },
+  },
+  -- lazy can generate helptags from the headings in markdown readme files,
+  -- so :help works even for plugins that don't have vim docs.
+  -- when the readme opens with :help it will be correctly displayed as markdown
+  readme = {
+    enabled = true,
+    root = vim.fn.stdpath("state") .. "/lazy/readme",
+    files = { "README.md", "lua/**/README.md" },
+    -- only generate markdown helptags for plugins that dont have docs
+    skip_if_doc_exists = true,
+  },
+  state = vim.fn.stdpath("state") .. "/lazy/state.json", -- state info for checker and other things
+  build = {
+    -- Plugins can provide a `build.lua` file that will be executed when the plugin is installed
+    -- or updated. When the plugin spec also has a `build` command, the plugin's `build.lua` not be
+    -- executed. In this case, a warning message will be shown.
+    warn_on_override = true,
+  },
+  -- Enable profiling of lazy.nvim. This will add some overhead,
+  -- so only enable this when you are debugging lazy.nvim
+  profiling = {
+    -- Enables extra stats on the debug tab related to the loader cache.
+    -- Additionally gathers stats about all package.loaders
+    loader = false,
+    -- Track each new require in the Lazy profiling tab
+    require = false,
+  },
+}
+local plugins = {
+  "Tastyep/structlog.nvim",
+  "nvim-lua/plenary.nvim",
+  "rcarriga/nvim-notify",
+  {
+    "b0o/schemastore.nvim",
+    ft = { "json" }
+  },
+  -- General Utilities.
+  "folke/which-key.nvim",
+  "numToStr/Comment.nvim",
+  {
+    'nvimdev/dashboard-nvim',
     event = 'VimEnter',
     config = function()
       require 'plugs/dashboard'
     end,
     dependencies = { { 'nvim-tree/nvim-web-devicons' } }
-  }
+  },
 
   -- Color schemes:
-  use { 'folke/tokyonight.nvim' }
-  use { 'ellisonleao/gruvbox.nvim' }
-  use { "catppuccin/nvim", as = "catppuccin" }
+  'folke/tokyonight.nvim',
+  'ellisonleao/gruvbox.nvim',
+  {
+    "catppuccin/nvim",
+    name = "catppuccin"
+  },
 
   -- Telescope:
-  use "nvim-telescope/telescope.nvim"
-  use {
+  "nvim-telescope/telescope.nvim",
+  {
     'nvim-telescope/telescope-fzf-native.nvim',
-    run = 'make'
-  }
-
+    build =
+    'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build'
+  },
 
   -- File explorer:
-  use {
+  {
     'nvim-tree/nvim-tree.lua',
-    requires = { 'nvim-tree/nvim-web-devicons' }
-  }
-  use { 'lewis6991/gitsigns.nvim' }
+    dependencies = { 'nvim-tree/nvim-web-devicons' }
+  },
+  'lewis6991/gitsigns.nvim',
 
   -- Status line:
-  use 'nvim-lualine/lualine.nvim'
+  'nvim-lualine/lualine.nvim',
 
   -- Buffer Line:
-  use {
+  {
     'akinsho/bufferline.nvim',
-    -- after = 'catppuccin',
-    tag = "v4.6.1",
-    requires = 'nvim-tree/nvim-web-devicons'
-  }
-
-  -- use 'RRethy/vim-illuminate'
+    version = "v4.6.1",
+    dependencies = 'nvim-tree/nvim-web-devicons'
+  },
 
   -- Treesitter:
-  use {
-    "nvim-treesitter/nvim-treesitter"
-  }
+  "nvim-treesitter/nvim-treesitter",
 
   -- neodev
-  use {
-    'folke/neodev.nvim',
-  }
+  'folke/neodev.nvim',
 
-  use {
+  -- document generator
+  {
     'danymat/neogen',
-    requires = "nvim-treesitter/nvim-treesitter"
-  }
+    dependencies = "nvim-treesitter/nvim-treesitter"
+  },
 
   -- Dap:
-  use { "mfussenegger/nvim-dap" }
-  use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } }
+  "mfussenegger/nvim-dap",
+  {
+    "rcarriga/nvim-dap-ui",
+    dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" }
+  },
 
   -- Toggle Term:
-  use 'akinsho/toggleterm.nvim'
+  'akinsho/toggleterm.nvim',
 
   -- glsl:
-  use {
-    'tikhomirov/vim-glsl',
-  }
-  -- Markdown:
-  use {
-    'preservim/vim-markdown',
-    require = 'godlygeek/tabular',
-    ft = { 'markdown' }
-  }
+  'tikhomirov/vim-glsl',
 
-  -- Edit Enhancing:
-  use 'lukas-reineke/indent-blankline.nvim'
-  use {
-    "folke/todo-comments.nvim",
-    requires = "nvim-lua/plenary.nvim"
-  }
-  use {
+  -- Markdown:
+  {
     'iamcco/markdown-preview.nvim',
     ft = { 'markdown' }
-  }
+  },
+  {
+    'MeanderingProgrammer/markdown.nvim',
+    name = 'render-markdown', -- Only needed if you have another plugin named markdown.nvim
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    config = function()
+      require "plugs.markdown"
+    end,
+  },
 
-  use {
-    'windwp/nvim-autopairs'
-  }
+  -- Edit Enhancing:
+  'lukas-reineke/indent-blankline.nvim',
+  'windwp/nvim-autopairs',
+  {
+    "folke/todo-comments.nvim",
+    dependencies = "nvim-lua/plenary.nvim"
+  },
 
   -- Tex & LaTex:
-  use {
+  {
     'lervag/vimtex',
     ft = { 'tex' }
-  }
+  },
 
   -- Typst:
-  use {
-    'kaarmu/typst.vim'
-  }
+  -- 'kaarmu/typst.vim',
 
-  -- Lsp configs.
-  use {
-    "williamboman/mason.nvim",
-    "williamboman/mason-lspconfig.nvim",
-    "neovim/nvim-lspconfig",
-  }
-  use {
+  -- Lsp config
+  "williamboman/mason.nvim",
+  "williamboman/mason-lspconfig.nvim",
+  "neovim/nvim-lspconfig",
+  {
     'Civitasv/cmake-tools.nvim',
     ft = { 'cmake' },
     config = function()
       require "plugs.cmaketools"
     end,
     opt = true
-  }
+  },
 
-  use {
-    'hrsh7th/nvim-cmp',
-    'hrsh7th/cmp-nvim-lsp',
-    'hrsh7th/cmp-buffer',
-    'hrsh7th/cmp-path',
-    'hrsh7th/cmp-cmdline',
-  }
-  use({
+  -- Completion
+  'hrsh7th/nvim-cmp',
+  'hrsh7th/cmp-nvim-lsp',
+  'hrsh7th/cmp-buffer',
+  'hrsh7th/cmp-path',
+  'hrsh7th/cmp-cmdline',
+  {
     "L3MON4D3/LuaSnip",
     -- follow latest release.
-    tag = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+    version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
     -- install jsregexp (optional!:).
     run = "make install_jsregexp"
-  })
-  use { 'saadparwaiz1/cmp_luasnip' }
-  use 'simrat39/symbols-outline.nvim'
-  use {
-    'github/copilot.vim'
-  }
-  use {
+  },
+  'saadparwaiz1/cmp_luasnip',
+
+  -- other tools:
+  'simrat39/symbols-outline.nvim',
+  'github/copilot.vim',
+  {
     "folke/trouble.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
-  }
-
-  -- Automatically set up your configuration after cloning packer.nvim
-  -- Put this at the end after all plugins
-  if packer_bootstrap or packer_sync_when_startup then
-    require('packer').sync()
-  end
-end)
+  },
+}
+lazy.setup(plugins, opts)

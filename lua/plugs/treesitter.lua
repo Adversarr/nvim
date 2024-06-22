@@ -1,11 +1,11 @@
 local utils = require('user.utils')
 local treesitter = utils.load_plug('nvim-treesitter.configs')
-if treesitter== nil then
-    return
+if treesitter == nil then
+  return
 end
 treesitter.setup {
   -- A list of parser names, or "all" (the four listed parsers should always be installed)
-  ensure_installed = { "c", "lua", "vim", "vimdoc", "cpp", "python"},
+  ensure_installed = { "c", "lua", "vim", "vimdoc", "cpp", "python", 'latex' },
 
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,
