@@ -93,7 +93,7 @@ reg {
   ["<C-L>"] = { "<c-w>l", "Jump to window right" },
   ["<M-k>"] = { "<cmd>move .-2<cr>==", "Move current line -2" },
   ["<M-j>"] = { "<cmd>move .+1<cr>==", "Move current line +1" },
-  ["<M-1>"] = { "<cmd>ToggleTerm<cr>", "Toggle Term default." },
+  ["<M-1>"] = { "<cmd>ToggleTerm direction=horizontal<cr>", "Toggle Term default." },
   ["<M-2>"] = { "<cmd>ToggleTerm direction=vertical<cr>", "Toggle Term vertical." },
   ["<M-3>"] = { "<cmd>ToggleTerm direction=float<cr>", "Toggle Term float." },
   ["<M-q>"] = { "<cmd>q<cr>", "Quit the window" },
@@ -106,11 +106,15 @@ reg {
   ["<C-Down>"] = { "<cmd>resize -2<cr>", "Decrease window height" },
   ["<C-Left>"] = { "<cmd>vertical resize +2<cr>", "Increase window width" },
   ["<C-Right>"] = { "<cmd>vertical resize -2<cr>", "Decrease window width" },
+  ["<C-k>"] = { "<cmd>resize +2<cr>", "Increase window height" },
+  ["<C-j>"] = { "<cmd>resize -2<cr>", "Decrease window height" },
+  ["<C-h>"] = { "<cmd>vertical resize +2<cr>", "Increase window width" },
+  ["<C-l>"] = { "<cmd>vertical resize -2<cr>", "Decrease window width" },
 }
 
 -- For Terminal:
 reg({
-  ["<M-1>"] = { "<cmd>ToggleTerm<cr>", "Toggle Term default." },
+  ["<M-1>"] = { "<cmd>ToggleTerm direction=horizontal<cr>", "Toggle Term default." },
   ["<M-2>"] = { "<cmd>ToggleTerm direction=vertical<cr>", "Toggle Term vertical." },
   ["<M-3>"] = { "<cmd>ToggleTerm direction=float<cr>", "Toggle Term float." }
 }, { mode = 't' })
