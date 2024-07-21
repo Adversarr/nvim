@@ -30,6 +30,8 @@ require 'plugs.autopair'
 require 'plugs.neogen'
 require "plugs.trouble"
 require "plugs.copilot"
+require "plugs.grug_far"
+require "plugs.refactoring"
 
 -- Languages:
 -- ndev should be loaded before lsp.
@@ -45,6 +47,7 @@ require 'plugs.cmp'
 require "plugs.dap"
 require "plugs.dapui"
 require "plugs.symbolsoutline"
+require "plugs.overseer"
 
 -- After load everything, apply keymaps.
 require "user.keymaps"

@@ -1,3 +1,4 @@
+-- NOTE: Ensure that lazy.nvim is installed before running this file.
 local ensure_lazy = function()
   local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
   if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -11,10 +12,12 @@ local ensure_lazy = function()
     })
   end
   vim.opt.rtp:prepend(lazypath)
-  return require("lazy")
+  return require('lazy')
 end
-
 local lazy = ensure_lazy()
+
+
+-- NOTE: Options for lazy.nvim
 local opts = {
   root = vim.fn.stdpath("data") .. "/lazy", -- directory where plugins will be installed
   defaults = {
@@ -190,6 +193,8 @@ local opts = {
     require = false,
   },
 }
+
+-- NOTE: Plugins to be installed using lazy.nvim
 local plugins = {
   "Tastyep/structlog.nvim",
   "nvim-lua/plenary.nvim",
@@ -284,6 +289,7 @@ local plugins = {
 
   -- Edit Enhancing:
   'lukas-reineke/indent-blankline.nvim',
+  "MagicDuck/grug-far.nvim",
   'windwp/nvim-autopairs',
   {
     "folke/todo-comments.nvim",
@@ -334,5 +340,25 @@ local plugins = {
     "folke/trouble.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
   },
+
+  -- Code Refactoring
+  {
+    "ThePrimeagen/refactoring.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    config = function()
+      require("refactoring").setup()
+    end,
+  },
+
+  -- Overseer: task management
+  {
+    'stevearc/overseer.nvim',
+  },
+  
 }
+
 lazy.setup(plugins, opts)
+

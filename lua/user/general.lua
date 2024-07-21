@@ -6,8 +6,7 @@ vim.opt.completeopt = { "menuone", "noselect" }
 vim.opt.conceallevel = 0                                     -- so that `` is visible in markdown files
 vim.opt.fileencoding = "utf-8"                               -- the encoding written to a file
 vim.opt.foldmethod = "expr"                                  -- folding set to "expr" for treesitter based folding
-vim.opt.foldexpr =
-"nvim_treesitter#foldexpr()"                                 -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"                                 -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
 vim.opt.foldlevel = 5
 vim.opt.guifont = "CodeNewRoman Nerd Font:h16:##e-antialias" -- the font used in graphical neovim applications
 vim.opt.linespace = 0

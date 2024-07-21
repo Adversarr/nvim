@@ -12,7 +12,8 @@ vim.g.copilot_filetypes = {
   cuda=true,
   c=true,
   latex=true,
-  lua=true
+  lua=true,
+  ['grug-far']=false
 }
 
 

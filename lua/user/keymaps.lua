@@ -7,8 +7,7 @@ if wk == nil then
 end
 
 local reg = wk.register
-
-
+local add = wk.add
 
 local function try_close_buffer(kill_command, bufnr, force)
   kill_command = kill_command or "bd"
@@ -80,123 +79,157 @@ end
 
 
 
--- Normal mode, without prefix:
-reg {
-  ["<C-s>"] = {
-    "<cmd>w<cr>",
-    "Write file"
-  },
+-- SECT: Normal mode, without prefix:
+add({
+  { "<C-s>",     "<cmd>w<cr>",                               desc = "Write file" },
+  { "<C-Down>",  "<cmd>resize -2<cr>",                       desc = "Decrease window height" },
+  { "<C-H>",     "<c-w>h",                                   desc = "Jump to window left" },
+  { "<C-J>",     "<c-w>j",                                   desc = "Jump to window bottom" },
+  { "<C-K>",     "<c-w>k",                                   desc = "Jump to window up" },
+  { "<C-L>",     "<c-w>l",                                   desc = "Jump to window right" },
+  { "<C-Left>",  "<cmd>vertical resize +2<cr>",              desc = "Increase window width" },
+  { "<C-Right>", "<cmd>vertical resize -2<cr>",              desc = "Decrease window width" },
   -- Idea comes from lunarvim:
-  ["<C-H>"] = { "<c-w>h", "Jump to window left" },
-  ["<C-J>"] = { "<c-w>j", "Jump to window bottom" },
-  ["<C-K>"] = { "<c-w>k", "Jump to window up" },
-  ["<C-L>"] = { "<c-w>l", "Jump to window right" },
-  ["<M-k>"] = { "<cmd>move .-2<cr>==", "Move current line -2" },
-  ["<M-j>"] = { "<cmd>move .+1<cr>==", "Move current line +1" },
-  ["<M-1>"] = { "<cmd>ToggleTerm direction=horizontal<cr>", "Toggle Term default." },
-  ["<M-2>"] = { "<cmd>ToggleTerm direction=vertical<cr>", "Toggle Term vertical." },
-  ["<M-3>"] = { "<cmd>ToggleTerm direction=float<cr>", "Toggle Term float." },
-  ["<M-q>"] = { "<cmd>q<cr>", "Quit the window" },
-  ["<M-c>"] = { try_close_buffer, "Quit the window" },
-  ["<M-h>"] = { "<cmd>BufferLineCyclePrev<cr>", "Prev buffer" },
-  ["<M-l>"] = { "<cmd>BufferLineCycleNext<cr>", "Next buffer" },
+  { "<C-Up>",    "<cmd>resize +2<cr>",                       desc = "Increase window height" },
+  { "<M-1>",     "<cmd>ToggleTerm direction=horizontal<cr>", desc = "Toggle Term default." },
+  { "<M-2>",     "<cmd>ToggleTerm direction=vertical<cr>",   desc = "Toggle Term vertical." },
+  { "<M-3>",     "<cmd>ToggleTerm direction=float<cr>",      desc = "Toggle Term float." },
+  { "<M-c>",     try_close_buffer,                           desc = "Quit the window" },
+  { "<M-h>",     "<cmd>BufferLineCyclePrev<cr>",             desc = "Prev buffer" },
+  { "<M-j>",     "<cmd>move .+1<cr>==",                      desc = "Move current line +1" },
+  { "<M-k>",     "<cmd>move .-2<cr>==",                      desc = "Move current line -2" },
+  { "<M-l>",     "<cmd>BufferLineCycleNext<cr>",             desc = "Next buffer" },
+  { "<M-q>",     "<cmd>q<cr>",                               desc = "Quit the window" },
+})
 
-  -- Increase/Decrease the window size.
-  ["<C-Up>"] = { "<cmd>resize +2<cr>", "Increase window height" },
-  ["<C-Down>"] = { "<cmd>resize -2<cr>", "Decrease window height" },
-  ["<C-Left>"] = { "<cmd>vertical resize +2<cr>", "Increase window width" },
-  ["<C-Right>"] = { "<cmd>vertical resize -2<cr>", "Decrease window width" },
-  ["<C-k>"] = { "<cmd>resize +2<cr>", "Increase window height" },
-  ["<C-j>"] = { "<cmd>resize -2<cr>", "Decrease window height" },
-  ["<C-h>"] = { "<cmd>vertical resize +2<cr>", "Increase window width" },
-  ["<C-l>"] = { "<cmd>vertical resize -2<cr>", "Decrease window width" },
+-- SECT: Editor in X mode
+add {
+  mode = { 'x' },
+  { "<", "<gv", desc = "move left" },
+  { ">", ">gv", desc = "move right" },
+  { "<M-j>", ":move '>+1<cr>gv-gv",    desc = "Move current line +1", mode = "x" },
+  { "<M-k>", ":move '<lt>-2<cr>gv-gv", desc = "Move current line -2", mode = "x" },
 }
 
--- For Terminal:
-reg({
-  ["<M-1>"] = { "<cmd>ToggleTerm direction=horizontal<cr>", "Toggle Term default." },
-  ["<M-2>"] = { "<cmd>ToggleTerm direction=vertical<cr>", "Toggle Term vertical." },
-  ["<M-3>"] = { "<cmd>ToggleTerm direction=float<cr>", "Toggle Term float." }
-}, { mode = 't' })
 
-reg({
-  ["<M-k>"] = { ":move '<lt>-2<cr>gv-gv", "Move current line -2" },
-  ["<M-j>"] = { ":move '>+1<cr>gv-gv", "Move current line +1" },
-}, { mode = 'x' })
+-- NOTE: For Terminal:
+add {
+  mode = { "t" },
+  { "<M-1>", "<cmd>ToggleTerm direction=horizontal<cr>", desc = "Toggle Term default." },
+  { "<M-2>", "<cmd>ToggleTerm direction=vertical<cr>",   desc = "Toggle Term vertical." },
+  { "<M-3>", "<cmd>ToggleTerm direction=float<cr>",      desc = "Toggle Term float." },
+}
+
+-- NOTE: <leader>
+add {
+  { "<leader>E",   "<cmd>NvimTreeFindFileToggle<cr>",                                desc = "Nvim Tree: Find File and Toggle" },
+  { "<leader>q",   "<cmd>quit<cr>",                                                  desc = "Quit window" },
+  { "<leader>w",   "<cmd>wa<cr>",                                                    desc = "Write all files" },
+  { "<leader>e",   "<cmd>NvimTreeToggle<CR>",                                        desc = "Nvim Tree: Toggle" },
+  { "<leader>f",   "<cmd>Telescope git_files<cr>",                                   desc = "Find Git File" },
+  { "<leader>h",   "<cmd>nohl<cr>",                                                  desc = "Cancel search highlight" },
+
+  -- SECT: buffer actions
+  { "<leader>b",   group = "Buffer Actions" },
+  { "<leader>bb",  "<cmd>BufferLineCyclePrev<cr>",                                   desc = "Prev buffer" },
+  { "<leader>bc",  "<cmd>BufferLinePickClose<cr>",                                   desc = "Pick and close buffer" },
+  { "<leader>bn",  "<cmd>BufferLineCycleNext<cr>",                                   desc = "Next buffer" },
+
+  -- SECT: git actions
+  { "<leader>g",   group = "Git" },
+  { "<leader>gb",  "<cmd>Telescope git_branches<cr>",                                desc = "Git Branches" },
+  { "<leader>gc",  "<cmd>Telescope git_commits<cr>",                                 desc = "Git Commits" },
+  { "<leader>gf",  "<cmd>Telescope git_files<cr>",                                   desc = "Git Files" },
+  { "<leader>gg",  group = "gitsigns" },
+  { "<leader>ggD", "<cmd>Gitsigns diffthis<cr>",                                     desc = "Diff this" },
+  { "<leader>ggb", "<cmd>Gitsigns toggle_current_line_blame<cr>",                    desc = "Toggle current line blame" },
+  { "<leader>ggd", "<cmd>Gitsigns toggle_deleted<cr>",                               desc = "Toggle deleted" },
+  { "<leader>ggl", "<cmd>Gitsigns toggle_linehl<cr>",                                desc = "Toggle line highlight" },
+  { "<leader>ggn", "<cmd>Gitsigns toggle_numhl<cr>",                                 desc = "Toggle number highlight" },
+  { "<leader>ggs", "<cmd>Gitsigns toggle_signs<cr>",                                 desc = "Toggle signs" },
+  { "<leader>ggw", "<cmd>Gitsigns toggle_word_diff<cr>",                             desc = "Toggle word diff" },
+  { "<leader>gp",  "<cmd>Telescope git_stash<cr>",                                   desc = "Git Stash" },
+  { "<leader>gr",  "<cmd>Telescope git_bcommits<cr>",                                desc = "Git Commits" },
+  { "<leader>gs",  "<cmd>Telescope git_status<cr>",                                  desc = "Git Status" },
+
+  -- SECT: Lsp actions
+  { "<leader>l",   group = "Lsp" },
+  { "<leader>lD",  "<cmd>Telescope diagnostic<cr>",                                  desc = "Document Diagnostics" },
+  { "<leader>lS",  "<cmd>Telescope lsp_workspace_symbols<cr>",                       desc = "Workspace Symbols" },
+  { "<leader>ld",  "<cmd>TodoTrouble<cr>",                                           desc = "Todo lists." },
+  { "<leader>lh",  "<cmd>ClangdSwitch<cr>",                                          desc = "Switch Source Header" },
+  { "<leader>ln",  "<cmd>Neogen<cr>",                                                desc = "Neogen Doc String" },
+  { "<leader>lo",  "<cmd>SymbolsOutline<cr>",                                        desc = "Symbols Outline" },
+  { "<leader>lq",  vim.lsp.buf.code_action,                                          desc = "Code action" },
+  { "<leader>ls",  "<cmd>Telescope lsp_document_symbols<cr>",                        desc = "Document Symbols" },
+  { "<leader>lt",  "<cmd>Trouble diagnostics<cr>",                                   desc = "Document diagnostics" },
+
+  -- SECT: Telescope actions
+  { "<leader>t",   group = "Telescope Actions" },
+  { "<leader>tP",  "<cmd>Telescope find_files find_command=rg,--hidden,--files<cr>", desc = "Files" },
+  { "<leader>tb",  "<cmd>Telescope buffers<cr>",                                     desc = "Switch between buffers" },
+  { "<leader>tp",  "<cmd>Telescope git_files show_untracked=true<cr>",               desc = "Git Files." },
+  { "<leader>tt",  "<cmd>Telescope live_grep use_regex=true<cr>",                    desc = "Find string in ws" },
 
 
--- <leader>...
-reg({
-  -- name = "Toggle NvimTree",
-  c = { try_close_buffer, "Close Buffer" },
-  C = { "<cmd>w<CR><cmd>bd<cr>", "Write and close buffer" },
-  f = { "<cmd>Telescope git_files<cr>", "Find Git File" },
-  e = { "<cmd>NvimTreeToggle<CR>", "Nvim Tree: Toggle" },
-  h = { "<cmd>nohl<cr>", "Cancel search highlight" },
-  q = { "<cmd>quit<cr>", "Quit window" },
-  w = { "<cmd>wa<cr>", "Write all files" },
-  b = {
-    name = "Buffer Actions",
-    b = { "<cmd>BufferLineCyclePrev<cr>", "Prev buffer" },
-    n = { "<cmd>BufferLineCycleNext<cr>", "Next buffer" },
-    c = { "<cmd>BufferLinePickClose<cr>", "Pick and close buffer" }
-  },
-  t = {
-    name = "Telescope Actions",
-    b = { "<cmd>Telescope buffers<cr>", "Switch between buffers" },
-    p = { "<cmd>Telescope git_files show_untracked=true<cr>", "Git Files." },
-    P = { "<cmd>Telescope find_files find_command=rg,--hidden,--files<cr>", "Files" },
-    t = { "<cmd>Telescope live_grep use_regex=true<cr>", "Find string in ws" },
-  },
-  l = {
-    name = "Lsp",
-    q = { vim.lsp.buf.code_action, "Code action" },
-    o = { "<cmd>SymbolsOutline<cr>", "Symbols Outline" },
-    t = { "<cmd>Trouble diagnostics<cr>", "Document diagnostics" },
-    d = { "<cmd>TodoTrouble<cr>", "Todo lists." },
-    k = { vim.lsp.diagnostic.goto_next, "Goto previous diagnostic" },
-    j = { vim.lsp.diagnostic.goto_prev, "Goto next diagnostic" },
-    D = { "<cmd>Telescope diagnostic<cr>", "Document Diagnostics" },
-    s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
-    S = { "<cmd>Telescope lsp_workspace_symbols<cr>", "Workspace Symbols" },
-    h = { "<cmd>ClangdSwitch<cr>", "Switch Source Header" },
-    n = { "<cmd>Neogen<cr>", "Neogen Doc String" },
-  },
-  g = {
-    name = "Git",
-    b = { "<cmd>Telescope git_branches<cr>", "Git Branches" },
-    s = { "<cmd>Telescope git_status<cr>", "Git Status" },
-    c = { "<cmd>Telescope git_commits<cr>", "Git Commits" },
-    r = { "<cmd>Telescope git_bcommits<cr>", "Git Commits" },
-    p = { "<cmd>Telescope git_stash<cr>", "Git Stash" },
-    f = { "<cmd>Telescope git_files<cr>", "Git Files" },
-    g = {
-      name = "gitsigns",
-      s = { "<cmd>Gitsigns toggle_signs<cr>", "Toggle signs" },
-      l = { "<cmd>Gitsigns toggle_linehl<cr>", "Toggle line highlight" },
-      n = { "<cmd>Gitsigns toggle_numhl<cr>", "Toggle number highlight" },
-      w = { "<cmd>Gitsigns toggle_word_diff<cr>", "Toggle word diff" },
-      b = { "<cmd>Gitsigns toggle_current_line_blame<cr>", "Toggle current line blame" },
-      D = { "<cmd>Gitsigns diffthis<cr>", "Diff this" },
-      d = { "<cmd>Gitsigns toggle_deleted<cr>", "Toggle deleted" },
-    }
-  }
-}, { prefix = "<leader>" })
+  -- SECT: Grug Far
+  { "<leader>R", group = "Grug far"},
 
+  -- Launch with the current word under the cursor as the search string
+  --
+  -- :lua require('grug-far').grug_far({ prefills = { search = vim.fn.expand("<cword>") } })
+  { "<leader>Rw", function ()
+    require('grug-far').grug_far({ prefills = { search = vim.fn.expand("<cword>") } })
+  end, desc = "Current World" },
+  --
+  -- Launch with the current file as a flag, which limits search/replace to it
+  --
+  -- :lua require('grug-far').grug_far({ prefills = { flags = vim.fn.expand("%") } })
+  { "<leader>Rf", function ()
+    require('grug-far').grug_far({ prefills = { flags = vim.fn.expand("%") } })
+  end, desc = "Current File" },
+
+  -- Launch with the current visual selection, searching only current file
+  --
+  -- :<C-u>lua require('grug-far').with_visual_selection({ prefills = { flags = vim.fn.expand("%") } })
+  { "<leader>Rv", function ()
+    require('grug-far').with_visual_selection({ prefills = { flags = vim.fn.expand("%") } })
+  end, desc = "Visual Selection" },
+  -- Toggle visibility of a particular instance and set title to a fixed string
+  --
+  -- :lua require('grug-far').toggle_instance({ instanceName="far", staticTitle="Find and Replace" })
+  { "<leader>Rt", function ()
+    require('grug-far').toggle_instance({ instanceName="far", staticTitle="Find and Replace" })
+  end, desc = "Toggle Instance" },
+}
+
+-- NOTE: Refactor
+add {
+  mode = {"n", "x"},
+  {"<leader>rr", function() require('telescope').extensions.refactoring.refactors() end, desc='Refactor'},
+  {"<leader>rn", function() require('telescope').extensions.refactoring.renames() end,   desc='Rename'},
+}
+
+add {
+  mode = { 'x' },
+  { "<leader>re", function() require('refactoring').refactor('Extract Function') end,         desc = "Extract Function" },
+  { "<leader>rf", function() require('refactoring').refactor('Extract Function To File') end, desc = "Extract Function To File" },
+  { "<leader>ri", function() require('refactoring').refactor('Inline Variable') end,          desc = "Inline Variable" },
+  { "<leader>rv", function() require('refactoring').refactor('Extract Variable') end,         desc = "Extract Variable" },
+}
+
+add {
+  mode = { 'n' },
+  { "<leader>rb",  function() require('refactoring').refactor('Extract Block') end,           desc = "Extract Block" },
+  { "<leader>rbf", function() require('refactoring').refactor('Extract Block To File') end,   desc = "Extract Block To File" },
+  { "<leader>rI",  function() require('refactoring').refactor('Inline Function') end,         desc = "Inline Function" },
+}
 
 -- TODO: Dapui does not exists any more?
--- reg({
---   name = 'Dap',
---   o = { require("dapui").open, "Open DapUI" },
---   c = { require('dapui').close, "Close DapUI" },
---   d = { require('dapui').toggle, "Toggle DapUI" }
---
--- }, { prefix = '<leader>d' })
-
 
 -- > and < will holdon in x-mode.
-vim.api.nvim_set_keymap('x', '<', '<gv', { noremap = true })
-vim.api.nvim_set_keymap('x', '>', '>gv', { noremap = true })
+-- vim.api.nvim_set_keymap('x', '<', '<gv', { noremap = true })
+-- vim.api.nvim_set_keymap('x', '>', '>gv', { noremap = true })
 
 
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -205,54 +238,35 @@ vim.api.nvim_create_autocmd('LspAttach', {
     -- Enable completion triggered by <c-x><c-o>
     vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
-    -- Buffer local mappings.
-    -- See `:help vim.lsp.*` for documentation on any of the below functions
-    local opts = { buffer = ev.buf }
-    reg({
-      g = {
-        name = "Lsp goto",
-        D = { vim.lsp.buf.declaration, "Goto declaration" },
-        d = { vim.lsp.buf.definition, "Goto definition" },
-        i = { vim.lsp.buf.implementation, "Goto implementation" },
-        t = { vim.lsp.buf.type_definition, "Goto definition." },
-        r = { "<cmd>Trouble lsp_references<cr>", "Goto references" }
-      },
-      K = { vim.lsp.buf.hover, "Hover text." },
-    }, {
-      mode = 'n', buffer = ev.buf
+    add {
+      { "K",  vim.lsp.buf.hover,                      buffer = 1,        desc = "Hover text." },
+      { "g",  buffer = 1,                             group = "Lsp goto" },
+      { "gD", vim.lsp.buf.declaration,                buffer = 1,        desc = "Goto declaration" },
+      { "gd", vim.lsp.buf.definition,                 buffer = 1,        desc = "Goto definition" },
+      { "gi", "<cmd>Trouble lsp_implementations<cr>", buffer = 1,        desc = "Goto implementation" },
+      { "gr", "<cmd>Trouble lsp_references<cr>",      buffer = 1,        desc = "Goto references" },
     }
-    )
 
-    reg({
-      l = {
-        f = { function()
-          vim.lsp.buf.format { async = true }
-        end, "Format code." },
-        r = {
-          name = "Refactor and rename",
-          n = { vim.lsp.buf.rename, "Rename symbol" },
-          e = { vim.lsp.buf.code_action, "Code action Refactoring." }
-        },
-        l = {
-          name = "Lsp list",
-          O = { vim.lsp.buf.outgoing_calls, "Outgoing calls" },
-          I = { vim.lsp.buf.incoming_calls, "Incoming calls" },
-          i = { vim.lsp.buf.implementation, "Goto implementation" },
-          r = { vim.lsp.buf.references, "References" }
-        }
-      },
-      w = {
-        a = { vim.lsp.buf.add_workspace_folder, "Add folder as workspace." },
-        r = { vim.lsp.buf.remove_workspace_folder, "Remove workspace folder." },
-        l = { function()
-          print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-        end, "List workspace folders."
-        }
-      }
-    }, {
-      mode = 'n',
-      buffer = ev.buf,
-      prefix = "<leader>"
-    })
+    local function format_code()
+      vim.lsp.buf.format { async = true }
+    end
+    add {
+      { "<leader>lf",  format_code,                           buffer = 1,                   desc = "Format code." },
+      { "<leader>ll",  buffer = 1,                            group = "Lsp list" },
+      { "<leader>llI", "<cmd>Trouble lsp_incoming_calls<cr>", buffer = 1,                   desc = "Incoming calls" },
+      { "<leader>llO", "<cmd>Trouble lsp_outgoing_calls<cr>", buffer = 1,                   desc = "Outgoing calls" },
+      { "<leader>lli", vim.lsp.buf.implementation,            buffer = 1,                   desc = "Goto implementation" },
+      { "<leader>lr",  buffer = 1,                            group = "Refactor and rename" },
+      { "<leader>lre", vim.lsp.buf.code_action,               buffer = 1,                   desc = "Code action Refactoring." },
+      { "<leader>lrn", vim.lsp.buf.rename,                    buffer = 1,                   desc = "Rename symbol" },
+    }
   end,
 })
+
+local comment = utils.load_plug('Comment')
+if comment ~= nil then
+  add {
+    { "gcc", comment.toggle, buffer = 1, desc = "Comment line" },
+    { "gc",  comment.toggle, buffer = 1, desc = "Comment line" },
+  }
+end

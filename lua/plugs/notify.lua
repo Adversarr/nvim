@@ -24,3 +24,16 @@ notify.setup {
 
 -- Replace original notify.
 vim.notify = notify.notify
+
+-- Took from https://github.com/archibate/vimrc/blob/nvim-2/lua/archvim/config/notify.lua
+local old_notify = vim.notify
+vim.notify = function(msg, ...)
+    if msg:match("warning: multiple different client offset_encodings") then
+        return
+    end
+    if msg:match("clipboard: error: Error: target STRING not available") then
+        return
+    end
+
+    old_notify(msg, ...)
+end
