@@ -1,5 +1,3 @@
--- TODO: Add comment keymap.
-
 local utils = require('user.utils')
 local wk = utils.load_plug('which-key')
 if wk == nil then
@@ -237,28 +235,26 @@ vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(ev)
     -- Enable completion triggered by <c-x><c-o>
     vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
-
-    add {
-      { "K",  vim.lsp.buf.hover,                      buffer = 1,        desc = "Hover text." },
-      { "g",  buffer = 1,                             group = "Lsp goto" },
-      { "gD", vim.lsp.buf.declaration,                buffer = 1,        desc = "Goto declaration" },
-      { "gd", vim.lsp.buf.definition,                 buffer = 1,        desc = "Goto definition" },
-      { "gi", "<cmd>Trouble lsp_implementations<cr>", buffer = 1,        desc = "Goto implementation" },
-      { "gr", "<cmd>Trouble lsp_references<cr>",      buffer = 1,        desc = "Goto references" },
-    }
+    local current_buffer = ev.buf
 
     local function format_code()
       vim.lsp.buf.format { async = true }
     end
-    add {
-      { "<leader>lf",  format_code,                           buffer = 1,                   desc = "Format code." },
-      { "<leader>ll",  buffer = 1,                            group = "Lsp list" },
-      { "<leader>llI", "<cmd>Trouble lsp_incoming_calls<cr>", buffer = 1,                   desc = "Incoming calls" },
-      { "<leader>llO", "<cmd>Trouble lsp_outgoing_calls<cr>", buffer = 1,                   desc = "Outgoing calls" },
-      { "<leader>lli", vim.lsp.buf.implementation,            buffer = 1,                   desc = "Goto implementation" },
-      { "<leader>lr",  buffer = 1,                            group = "Refactor and rename" },
-      { "<leader>lre", vim.lsp.buf.code_action,               buffer = 1,                   desc = "Code action Refactoring." },
-      { "<leader>lrn", vim.lsp.buf.rename,                    buffer = 1,                   desc = "Rename symbol" },
+    require('which-key').add {
+      { "K",  vim.lsp.buf.hover,                      buffer = current_buffer,        desc = "Hover text." },
+      { "g",  buffer = current_buffer,                             group = "Lsp goto" },
+      { "gD", vim.lsp.buf.declaration,                buffer = current_buffer,        desc = "Goto declaration" },
+      { "gd", vim.lsp.buf.definition,                 buffer = current_buffer,        desc = "Goto definition" },
+      { "gi", "<cmd>Trouble lsp_implementations<cr>", buffer = current_buffer,        desc = "Goto implementation" },
+      { "gr", "<cmd>Trouble lsp_references<cr>",      buffer = current_buffer,        desc = "Goto references" },
+      { "<leader>lf",  format_code,                           buffer = current_buffer,                   desc = "Format code." },
+      { "<leader>ll",  buffer = current_buffer,                            group = "Lsp list" },
+      { "<leader>llI", "<cmd>Trouble lsp_incoming_calls<cr>", buffer = current_buffer,                   desc = "Incoming calls" },
+      { "<leader>llO", "<cmd>Trouble lsp_outgoing_calls<cr>", buffer = current_buffer,                   desc = "Outgoing calls" },
+      { "<leader>lli", vim.lsp.buf.implementation,            buffer = current_buffer,                   desc = "Goto implementation" },
+      { "<leader>lr",  buffer = current_buffer,                            group = "Refactor and rename" },
+      { "<leader>lre", vim.lsp.buf.code_action,               buffer = current_buffer,                   desc = "Code action Refactoring." },
+      { "<leader>lrn", vim.lsp.buf.rename,                    buffer = current_buffer,                   desc = "Rename symbol" },
     }
   end,
 })

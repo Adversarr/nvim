@@ -4,18 +4,16 @@ local default_capabilities = {
       editsNearCursor = true,
     },
   },
-  offsetEncoding = 'utf-16'
+  offsetEncoding = 'utf-8'
 }
 return {
   cmd = {
     "clangd",
     "-j=8",
     "--header-insertion=never",
-    "--completion-style=detailed",
     "--ranking-model=heuristics",
     "--enable-config",
     "--background-index",
-    "--function-arg-placeholders=0",
     "--clang-tidy",
   },
   capabilities = default_capabilities,
