@@ -164,15 +164,25 @@ add {
 
   -- SECT: Telescope actions
   { "<leader>t",   group = "Telescope Actions" },
+  { "<leader>tr",  "<cmd>Telescope resume<cr>",                                      desc = "Resume" },
+  { "<leader>tc",  "<cmd>Telescope commands<cr>",                                    desc = "Commands" },
+  { "<leader>tF",  "<cmd>Telescope find_files<cr>",                                  desc = "Find files" },
   { "<leader>tP",  "<cmd>Telescope find_files find_command=rg,--hidden,--files<cr>", desc = "Files" },
   { "<leader>tb",  "<cmd>Telescope buffers<cr>",                                     desc = "Switch between buffers" },
   { "<leader>tp",  "<cmd>Telescope git_files show_untracked=true<cr>",               desc = "Git Files." },
   { "<leader>tt",  "<cmd>Telescope live_grep use_regex=true<cr>",                    desc = "Find string in ws" },
+  { "<leader>tw",  "<cmd>Telescope grep_string<cr>",                                 desc = "Find string in ws" },
+  { "<leader>ty",  "<cmd>Telescope filetypes<cr>",                                   desc = "File types" },
+  { "<leader>tg",  group = "Telescope git" },
+  { "<leader>tgb", "<cmd>Telescope git_branches<cr>",                                desc = "Git Branches" },
+  { "<leader>tgc", "<cmd>Telescope git_commits<cr>",                                 desc = "Git Commits" },
+  { "<leader>tgs", "<cmd>Telescope git_status<cr>",                                  desc = "Git Status" },
+  { "<leader>tgf", "<cmd>Telescope git_files<cr>",                                   desc = "Git Files" },
+  { "<leader>tgP", "<cmd>Telescope git_files show_untracked=true<cr>",               desc = "Git Files." },
 
 
   -- SECT: Grug Far
   { "<leader>R", group = "Grug far"},
-
   -- Launch with the current word under the cursor as the search string
   --
   -- :lua require('grug-far').grug_far({ prefills = { search = vim.fn.expand("<cword>") } })
@@ -199,6 +209,17 @@ add {
   { "<leader>Rt", function ()
     require('grug-far').toggle_instance({ instanceName="far", staticTitle="Find and Replace" })
   end, desc = "Toggle Instance" },
+
+  { "<leader>T", group='Overseer task management' },
+  { "<leader>Ta", "<cmd>OverseerAdd<cr>", desc = "Add task" },
+  { "<leader>Tc", "<cmd>OverseerClear<cr>", desc = "Clear task" },
+  { "<leader>Td", "<cmd>OverseerDone<cr>", desc = "Done task" },
+  { "<leader>Te", "<cmd>OverseerEdit<cr>", desc = "Edit task" },
+  { "<leader>Tl", "<cmd>OverseerList<cr>", desc = "List task" },
+  { "<leader>Tr", "<cmd>OverseerRun<cr>", desc = "Run task" },
+  { "<leader>Ts", "<cmd>OverseerStop<cr>", desc = "Stop task" },
+  { "<leader>Tt", "<cmd>OverseerToggle<cr>", desc = "Toggle task" },
+  { "<leader>Tw", "<cmd>OverseerWatch<cr>", desc = "Watch task" },
 }
 
 -- NOTE: Refactor
