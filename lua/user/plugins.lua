@@ -285,6 +285,7 @@ local plugins = {
     config = function()
       require "plugs.markdown"
     end,
+    ft = { 'markdown' }
   },
 
   -- Edit Enhancing:
